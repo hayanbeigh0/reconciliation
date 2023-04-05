@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:reconciliation/screens/home/view_file_screen.dart';
-import 'package:reconciliation/utils/colors/app_colors.dart';
-import 'package:reconciliation/utils/styles/app_styles.dart';
+import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
+import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 
 class FilesListPage extends StatelessWidget {
-  FilesListPage({
+  static const routeName = '/filesListPage';
+  const FilesListPage({
     Key? key,
   }) : super(key: key);
 
@@ -21,7 +22,7 @@ class FilesListPage extends StatelessWidget {
             builder = (BuildContext context) => PagesList();
             break;
           case '/viewFile':
-            builder = (BuildContext context) => ViewFile();
+            builder = (BuildContext context) => const ViewFile();
             break;
           // case '/contact':
           //   builder = (BuildContext context) => ContactPage();
@@ -44,12 +45,12 @@ class FilesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.colorPrimary,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: const BoxDecoration(
+          // border: Border.all(
+          //   color: AppColors.colorPrimary,
+          // ),
+          // borderRadius: BorderRadius.only(10),
+          ),
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -447,67 +448,59 @@ class PagesList extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: const [
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 21,
+                    itemBuilder: (context, index) => Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            width: 1,
+                            color: AppColors.colorPrimary,
+                          ),
+                          right: BorderSide(
+                            width: 1,
+                            color: AppColors.colorPrimary,
+                          ),
+                          bottom: index == 20
+                              ? BorderSide(
+                                  width: 1,
+                                  color: AppColors.colorPrimary,
+                                )
+                              : BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                          left: BorderSide(
+                            width: 1,
+                            color: AppColors.colorPrimary,
+                          ),
                         ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FilesListItem(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
+                        // borderRadius: BorderRadius.only(
+                        //   topLeft: index == 0
+                        //       ? const Radius.circular(10)
+                        //       : const Radius.circular(0),
+                        //   topRight: index == 0
+                        //       ? const Radius.circular(10)
+                        //       : const Radius.circular(0),
+                        //   bottomRight: index == 4
+                        //       ? const Radius.circular(10)
+                        //       : const Radius.circular(0),
+                        //   bottomLeft: index == 4
+                        //       ? const Radius.circular(10)
+                        //       : const Radius.circular(0),
+                        // ),
+                      ),
+                      child: const FilesListItem(),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 2,
                 ),
               ],
             );

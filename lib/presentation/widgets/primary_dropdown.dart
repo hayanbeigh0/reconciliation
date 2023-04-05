@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reconciliation/utils/colors/app_colors.dart';
-import 'package:reconciliation/utils/styles/app_styles.dart';
+import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 
 class PrimaryDropdown extends StatefulWidget {
   PrimaryDropdown({

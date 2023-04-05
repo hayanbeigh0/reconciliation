@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/gestures.dart';
-import 'package:reconciliation/screens/home/add_task_page.dart';
-import 'package:reconciliation/screens/home/files_list_page.dart';
-import 'package:reconciliation/screens/home/view_file_screen.dart';
-import 'package:reconciliation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/screens/home/add_task_page.dart';
+import 'package:reconciliation/presentation/screens/home/files_list_page.dart';
+import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 
 class AddTaskScreen extends StatefulWidget {
+  static const routeName = '/addTaskScreen';
   const AddTaskScreen({super.key});
 
   @override
@@ -46,6 +46,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
               ),
             )
+            // Expanded(
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     child: Navigator(
+            //       initialRoute: FilesListPage.routeName,
+            //       onGenerateRoute: (settings) =>
+            //           AppRouter.onGenerateRoute(settings),
+            //     ),
+            //   ),
+            // )
           ],
         );
       }),
@@ -86,6 +96,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   //   curve: Curves.easeInOut,
                   // );
                   pageController.jumpToPage(0);
+                  // Navigator.of(context)
+                  //     .pushReplacementNamed(FilesListPage.routeName);
                 });
               },
               child: SizedBox(
@@ -137,6 +149,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   //   curve: Curves.easeInOut,
                   // );
                   pageController.jumpToPage(1);
+                  Navigator.of(context)
+                      .pushReplacementNamed(AddTaskScreen.routeName);
                 });
               },
               child: SizedBox(

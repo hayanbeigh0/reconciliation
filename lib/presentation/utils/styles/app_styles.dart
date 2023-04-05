@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reconciliation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 
 class AppStyles {
   static TextStyle errorTextStyle = const TextStyle(

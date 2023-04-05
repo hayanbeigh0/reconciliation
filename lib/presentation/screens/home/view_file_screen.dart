@@ -1,13 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:reconciliation/utils/colors/app_colors.dart';
-import 'package:reconciliation/utils/styles/app_styles.dart';
+import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
+
 import 'package:split_view/split_view.dart';
 
 class ViewFile extends StatefulWidget {
+  static const routeName = '/viewFilePage';
   const ViewFile({super.key});
-
   @override
   State<ViewFile> createState() => _ViewFileState();
 }
@@ -346,6 +347,60 @@ class _ViewFileState extends State<ViewFile> {
           const SizedBox(
             height: 20,
           ),
+          Row(
+            children: const [
+              Expanded(
+                  child: Text(
+                'Matched Reference',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Reference',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Amount',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Description',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Status',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Sub Status',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Confirmation',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                '',
+                textAlign: TextAlign.center,
+              )),
+            ],
+          ),
+          const SizedBox(
+            height: 2,
+          ),
           Table(
             border: TableBorder.all(
               borderRadius: BorderRadius.circular(10),
@@ -356,12 +411,12 @@ class _ViewFileState extends State<ViewFile> {
                 children: [
                   const TableCell(
                       child: Text(
-                    'Ref1',
+                    'MRef1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
                       child: Text(
-                    'MRef1',
+                    'Ref1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
@@ -436,12 +491,12 @@ class _ViewFileState extends State<ViewFile> {
                 children: [
                   const TableCell(
                       child: Text(
-                    'Ref2',
+                    'MRef2',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
                       child: Text(
-                    'MRef2',
+                    'Ref2',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
@@ -525,12 +580,12 @@ class _ViewFileState extends State<ViewFile> {
                 children: [
                   const TableCell(
                       child: Text(
-                    'Ref3',
+                    'MRef3',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
                       child: Text(
-                    'MRef3',
+                    'Ref3',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
@@ -791,8 +846,62 @@ class _ViewFileState extends State<ViewFile> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
+          ),
+          Row(
+            children: const [
+              Expanded(
+                  child: Text(
+                'Matched Reference',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Reference',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Amount',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Description',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Status',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Sub Status',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Confirmation',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                '',
+                textAlign: TextAlign.center,
+              )),
+            ],
+          ),
+          const SizedBox(
+            height: 2,
           ),
           Table(
             border: TableBorder.all(
@@ -804,12 +913,12 @@ class _ViewFileState extends State<ViewFile> {
                 children: [
                   const TableCell(
                       child: Text(
-                    'Ref1',
+                    'MRef1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
                       child: Text(
-                    'MRef1',
+                    'Ref1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
@@ -884,12 +993,12 @@ class _ViewFileState extends State<ViewFile> {
                 children: [
                   const TableCell(
                       child: Text(
-                    'Ref1',
+                    'MRef1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
                       child: Text(
-                    'MRef1',
+                    'Ref1',
                     textAlign: TextAlign.center,
                   )),
                   const TableCell(
