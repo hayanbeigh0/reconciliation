@@ -12,7 +12,11 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => const LoginScreen(),
+        );
+      case '/login':
+        return MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
         );
       case '/addTaskPage':
         // return PageRouteBuilder(
@@ -33,7 +37,9 @@ class AppRouter {
         );
       case '/viewFile':
         return MaterialPageRoute(
-          builder: (context) => const ViewFile(),
+          builder: (context) => ViewFile(
+            reconciliationReferenceId: args["reconciliationReferenceId"],
+          ),
         );
       default:
         return null;

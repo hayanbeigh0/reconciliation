@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
+import 'package:reconciliation/main.dart';
 import 'package:reconciliation/presentation/screens/home/add_task_page.dart';
 import 'package:reconciliation/presentation/screens/home/files_list_page.dart';
+import 'package:reconciliation/presentation/screens/login/login_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -38,8 +42,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     });
                   },
                   dragStartBehavior: DragStartBehavior.start,
-                  children: [
-                    const AddTaskPage(),
+                  children: const [
+                    AddTaskPage(),
                     FilesListPage(),
                     // ViewFile(),
                   ],
@@ -190,22 +194,46 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
             ),
             const Spacer(),
-            Row(
-              children: const [
-                Text(
-                  'John',
-                  style: TextStyle(
-                    color: AppColors.colorWhite,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
+            PopupMenuButton(
+              position: PopupMenuPosition.under,
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'logout',
+                  child: const Text('Logout'),
+                  onTap: () {
+                    if (Navigator.canPop(context)) {
+                      Navigator.of(context).pop();
+                      // Navigator.of(context).pushAndRemoveUntil(
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const LoginScreen(),
+                      //     ),
+                      //     (route) => false);
+                      // Navigator.of(context).pushNamedAndRemoveUntil(
+                      //     LoginScreen.routeName, (route) => false);
+                      BlocProvider.of<LocalStorageCubit>(context)
+                          .clearStorage();
+                    }
+                  },
                 ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: AppColors.colorWhite,
-                  size: 34,
-                )
               ],
+              child: Row(
+                children: [
+                  Text(
+                    AuthBasedRouting.afterLogin.userDetails!.userName
+                        .toString(),
+                    style: const TextStyle(
+                      color: AppColors.colorWhite,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: AppColors.colorWhite,
+                    size: 34,
+                  )
+                ],
+              ),
             ),
           ],
         ),

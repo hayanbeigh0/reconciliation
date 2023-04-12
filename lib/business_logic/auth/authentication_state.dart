@@ -11,8 +11,16 @@ class AuthenticationInitial extends AuthenticationState {
 }
 
 class OTPSentSuccessfully extends AuthenticationState {
+  final String username;
+  final String session;
+  final String phoneNumber;
+  const OTPSentSuccessfully({
+    required this.username,
+    required this.session,
+    required this.phoneNumber,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [username, session, phoneNumber];
 }
 
 class AuthenticationLoadingState extends AuthenticationState {

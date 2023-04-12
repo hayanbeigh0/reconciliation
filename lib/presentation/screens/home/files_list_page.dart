@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/functions/date_formatter.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
+import 'package:reconciliation/presentation/widgets/primary_button.dart';
 
 class FilesListPage extends StatelessWidget {
   static const routeName = '/filesListPage';
@@ -16,13 +20,18 @@ class FilesListPage extends StatelessWidget {
     return Navigator(
       initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
+        final Map<String, dynamic> args = settings.arguments == null
+            ? {}
+            : settings.arguments as Map<String, dynamic>;
         WidgetBuilder builder;
         switch (settings.name) {
           case '/':
             builder = (BuildContext context) => PagesList();
             break;
           case '/viewFile':
-            builder = (BuildContext context) => const ViewFile();
+            builder = (BuildContext context) => ViewFile(
+                  reconciliationReferenceId: args['reconciliationReferenceId'],
+                );
             break;
           // case '/contact':
           //   builder = (BuildContext context) => ContactPage();
@@ -39,7 +48,19 @@ class FilesListPage extends StatelessWidget {
 class FilesListItem extends StatelessWidget {
   const FilesListItem({
     Key? key,
+    required this.date,
+    required this.reference,
+    required this.status,
+    required this.referenceId,
+    required this.sheet1ResultPath,
+    required this.sheet2ResultPath,
   }) : super(key: key);
+  final String date;
+  final String reference;
+  final String status;
+  final String referenceId;
+  final String? sheet1ResultPath;
+  final String? sheet2ResultPath;
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +75,19 @@ class FilesListItem extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                '30-03-2023',
+                // DateFormatter.formatDateTime(date),
+                DateFormatter.formatDate(date),
                 textAlign: TextAlign.center,
               ),
             ),
             const VerticalDivider(
               color: AppColors.colorPrimary,
             ),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Licious_Swiggy_Apr\'21',
+                reference,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
@@ -74,9 +96,9 @@ class FilesListItem extends StatelessWidget {
             const VerticalDivider(
               color: AppColors.colorPrimary,
             ),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Initialted',
+                status,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -94,7 +116,12 @@ class FilesListItem extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/viewFile');
+                  Navigator.of(context).pushNamed(
+                    '/viewFile',
+                    arguments: {
+                      "reconciliationReferenceId": int.parse(referenceId)
+                    },
+                  );
                 },
                 child: const Text(
                   'View',
@@ -108,15 +135,26 @@ class FilesListItem extends StatelessWidget {
             // VerticalDivider(),
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: sheet1ResultPath == null || sheet2ResultPath == null
+                    ? null
+                    : () {
+                        BlocProvider.of<GetJobCubit>(context)
+                            .downloadFile(referenceId: referenceId);
+                      },
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  color: AppColors.colorPrimary,
-                  child: const Text(
+                  color:
+                      sheet1ResultPath == 'null' || sheet2ResultPath == 'null'
+                          ? Colors.grey
+                          : AppColors.colorPrimary,
+                  child: Text(
                     'Download',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      backgroundColor: AppColors.colorPrimary,
+                      backgroundColor: sheet1ResultPath == 'null' ||
+                              sheet2ResultPath == 'null'
+                          ? Colors.grey
+                          : AppColors.colorPrimary,
                       color: AppColors.colorWhite,
                     ),
                   ),
@@ -142,6 +180,7 @@ class PagesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<GetJobCubit>(context).getJobList();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(40.0),
@@ -451,55 +490,160 @@ class PagesList extends StatelessWidget {
                   height: 10,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 21,
-                    itemBuilder: (context, index) => Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            width: 1,
+                  child: BlocBuilder<GetJobCubit, GetJobState>(
+                    builder: (context, state) {
+                      if (state is GettingJobListState) {
+                        return const Center(
+                          child: CircularProgressIndicator(
                             color: AppColors.colorPrimary,
                           ),
-                          right: BorderSide(
-                            width: 1,
-                            color: AppColors.colorPrimary,
+                        );
+                      }
+                      if (state is GettingJobListFailedState) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.error,
+                                color: AppColors.textColorRed,
+                              ),
+                              const Text('Failed loading jobs'),
+                              TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<GetJobCubit>(context)
+                                      .getJobList();
+                                },
+                                child: const Text('Retry'),
+                              ),
+                            ],
                           ),
-                          bottom: index == 20
-                              ? BorderSide(
+                        );
+                      }
+                      if (state is JobDownloadingState) {
+                        return Stack(
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.jobList.length,
+                              itemBuilder: (context, index) => Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                    right: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                    bottom: index == state.jobList.length - 1
+                                        ? const BorderSide(
+                                            width: 1,
+                                            color: AppColors.colorPrimary,
+                                          )
+                                        : const BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1,
+                                          ),
+                                    left: const BorderSide(
+                                      width: 1,
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  ),
+                                ),
+                                child: FilesListItem(
+                                  date: state.jobList[index].createdDateTime
+                                      .toString(),
+                                  reference: state
+                                      .jobList[index].reconciliationReference
+                                      .toString(),
+                                  status: state
+                                      .jobList[index].reconciliationStatus
+                                      .toString(),
+                                  referenceId: state
+                                      .jobList[index].reconciliationReferenceId
+                                      .toString(),
+                                  sheet1ResultPath: state
+                                      .jobList[index].sheetOneResultPath
+                                      .toString(),
+                                  sheet2ResultPath: state
+                                      .jobList[index].sheetTwoResultPath
+                                      .toString(),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              color: const Color.fromARGB(19, 0, 0, 0),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.colorPrimary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      if (state is GettingJobListDoneState) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.jobList.length,
+                          itemBuilder: (context, index) => Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: const BorderSide(
                                   width: 1,
                                   color: AppColors.colorPrimary,
-                                )
-                              : BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
                                 ),
-                          left: BorderSide(
-                            width: 1,
-                            color: AppColors.colorPrimary,
+                                right: const BorderSide(
+                                  width: 1,
+                                  color: AppColors.colorPrimary,
+                                ),
+                                bottom: index == state.jobList.length - 1
+                                    ? const BorderSide(
+                                        width: 1,
+                                        color: AppColors.colorPrimary,
+                                      )
+                                    : const BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                left: const BorderSide(
+                                  width: 1,
+                                  color: AppColors.colorPrimary,
+                                ),
+                              ),
+                            ),
+                            child: FilesListItem(
+                              date: state.jobList[index].createdDateTime
+                                  .toString(),
+                              reference: state
+                                  .jobList[index].reconciliationReference
+                                  .toString(),
+                              status: state.jobList[index].reconciliationStatus
+                                  .toString(),
+                              referenceId: state
+                                  .jobList[index].reconciliationReferenceId
+                                  .toString(),
+                              sheet1ResultPath: state
+                                  .jobList[index].sheetOneResultPath
+                                  .toString(),
+                              sheet2ResultPath: state
+                                  .jobList[index].sheetTwoResultPath
+                                  .toString(),
+                            ),
                           ),
-                        ),
-                        // borderRadius: BorderRadius.only(
-                        //   topLeft: index == 0
-                        //       ? const Radius.circular(10)
-                        //       : const Radius.circular(0),
-                        //   topRight: index == 0
-                        //       ? const Radius.circular(10)
-                        //       : const Radius.circular(0),
-                        //   bottomRight: index == 4
-                        //       ? const Radius.circular(10)
-                        //       : const Radius.circular(0),
-                        //   bottomLeft: index == 4
-                        //       ? const Radius.circular(10)
-                        //       : const Radius.circular(0),
-                        // ),
-                      ),
-                      child: const FilesListItem(),
-                    ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
               ],

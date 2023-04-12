@@ -58,7 +58,7 @@ class SnackBars {
               ),
               const Icon(
                 Icons.warning,
-                color: AppColors.textColorRed,
+                color: AppColors.colorWhite,
               ),
               Text(
                 message,

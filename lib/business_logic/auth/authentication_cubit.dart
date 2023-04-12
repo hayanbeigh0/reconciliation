@@ -33,6 +33,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
         if (!resendOtp) {
           emit(
+            OTPSentSuccessfully(
+              phoneNumber: phoneNumber,
+              session: sessionId.toString(),
+              username: username.toString(),
+            ),
+          );
+          emit(
             OTPSentState(
               phoneNumber: phoneNumber,
               session: sessionId.toString(),
@@ -40,7 +47,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
             ),
           );
         } else {
-          emit(OTPSentSuccessfully());
+          emit(
+            OTPSentSuccessfully(
+              phoneNumber: phoneNumber,
+              session: sessionId.toString(),
+              username: username.toString(),
+            ),
+          );
+          // emit(OTPSentSuccessfully());
           emit(
             OTPSentState(
               phoneNumber: phoneNumber,
@@ -90,13 +104,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try {
       final Response response =
           await authenticationRepository.verifyOtp(userDetails, otp);
+      log(response.data.toString());
       final responseBody = response.data;
       if (response.statusCode == 200) {
         if (responseBody['AuthenticationResult'] == null) {
-          emit(const AuthenticationOtpErrorState(
+          emit(
+            const AuthenticationOtpErrorState(
               error:
-                  " Oops! That OTP didn't work. Please check and enter the correct OTP."));
-          sessionId = responseBody['Session'];
+                  " Oops! That OTP didn't work. Please check and enter the correct OTP.",
+            ),
+          );
+          sessionId = responseBody['session'];
           username = username;
           emit(
             OTPSentState(
@@ -146,7 +164,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           ),
         );
       }
-      log(error: e.toString(), '3');
+      // log(error: e.toString(), '3');
       if (e.response!.data['message'] == 'Unrecognizable lambda output') {
         emit(
           const AuthenticationOtpErrorState(
@@ -187,7 +205,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         );
         return;
       }
-      log(error: e.toString(), '3');
+      log(error: e.response.toString(), '33');
       emit(
         const AuthenticationOtpErrorState(
           error: ' Unknown error occurred!',
