@@ -1,14 +1,12 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
+import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 import 'package:reconciliation/presentation/widgets/file_one_list.dart';
 import 'package:reconciliation/presentation/widgets/file_two_list.dart';
-import 'package:reconciliation/presentation/widgets/table_one_data.dart';
-import 'package:reconciliation/presentation/widgets/table_two_data.dart';
 
 import 'package:split_view/split_view.dart';
 
@@ -46,6 +44,7 @@ class _ViewFileState extends State<ViewFile> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SheetTwoDataEnquiryCubit>(context).eraseSheetTwoData();
     return WillPopScope(
       onWillPop: () async {
         return true;

@@ -19,9 +19,9 @@ class SheetTwoEnquiryStartedState extends SheetTwoDataEnquiryState {
   List<Object?> get props => [];
 }
 
-class SheetTwoEnquiryDonetate extends SheetTwoDataEnquiryState {
+class SheetTwoEnquiryDoneState extends SheetTwoDataEnquiryState {
   final List<TableRowData> tableRowData;
-  const SheetTwoEnquiryDonetate({
+  const SheetTwoEnquiryDoneState({
     required this.tableRowData,
   });
   @override

@@ -30,7 +30,7 @@ class TableTwoData extends StatelessWidget {
             ),
           );
         }
-        if (state is SheetTwoEnquiryDonetate) {
+        if (state is SheetTwoEnquiryDoneState) {
           tableRowData = state.tableRowData;
           return Table(
             border: TableBorder.all(

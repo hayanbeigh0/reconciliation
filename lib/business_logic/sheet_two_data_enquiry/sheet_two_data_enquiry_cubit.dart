@@ -25,10 +25,14 @@ class SheetTwoDataEnquiryCubit extends Cubit<SheetTwoDataEnquiryState> {
       List<TableRowData> tableRowData = (response.data as List<dynamic>)
           .map((e) => TableRowData.fromJson(e))
           .toList();
-      emit(SheetTwoEnquiryDonetate(tableRowData: tableRowData));
+      emit(SheetTwoEnquiryDoneState(tableRowData: tableRowData));
     } on DioError catch (e) {
       emit(SheetTwoEnquiryFailedState());
       log(e.response.toString());
     }
+  }
+
+  eraseSheetTwoData() {
+    emit(const SheetTwoEnquiryDoneState(tableRowData: []));
   }
 }
