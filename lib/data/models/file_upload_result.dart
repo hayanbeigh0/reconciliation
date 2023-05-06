@@ -41,7 +41,7 @@ class Sheet1 {
     eTag = json['ETag'];
     serverSideEncryption = json['ServerSideEncryption'];
     location = json['Location'];
-    key1 = json['key'];
+    key1 = json['Key'];
     key2 = json['Key'];
     bucket = json['Bucket'];
   }
@@ -51,7 +51,7 @@ class Sheet1 {
     data['ETag'] = eTag;
     data['ServerSideEncryption'] = serverSideEncryption;
     data['Location'] = location;
-    data['key'] = key1;
+    data['Key'] = key1;
     data['Key'] = key2;
     data['Bucket'] = bucket;
     return data;

@@ -39,6 +39,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => ViewFile(
             reconciliationReferenceId: args["reconciliationReferenceId"],
+            referenceName: args['referenceName'],
+            status: args['status'],
           ),
         );
       default:

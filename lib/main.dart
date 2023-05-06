@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reconciliation/business_logic/add_job/add_job_cubit.dart';
 
 import 'package:reconciliation/business_logic/auth/authentication_cubit.dart';
+import 'package:reconciliation/business_logic/get_complete_row/get_complete_row_cubit.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
+import 'package:reconciliation/business_logic/update_row_data/update_row_data_cubit.dart';
+import 'package:reconciliation/business_logic/upload_file_1/upload_file_1_cubit.dart';
+import 'package:reconciliation/business_logic/upload_file_2/upload_file2_cubit.dart';
 import 'package:reconciliation/data/models/user_details.dart';
 import 'package:reconciliation/data/repositories/add_job/add_job_repository.dart';
 import 'package:reconciliation/data/repositories/auth/authentication_repository.dart';
@@ -63,11 +67,35 @@ class MyApp extends StatelessWidget {
             );
           },
         ),
+        BlocProvider<GetCompleteRowCubit>(
+          create: (context) {
+            return GetCompleteRowCubit(
+              DataEnquiryRepository(),
+            );
+          },
+        ),
         BlocProvider<SheetTwoDataEnquiryCubit>(
           create: (context) {
             return SheetTwoDataEnquiryCubit(
               DataEnquiryRepository(),
             );
+          },
+        ),
+        BlocProvider<UpdateRowDataCubit>(
+          create: (context) {
+            return UpdateRowDataCubit(
+              DataEnquiryRepository(),
+            );
+          },
+        ),
+        BlocProvider<UploadFile1Cubit>(
+          create: (context) {
+            return UploadFile1Cubit();
+          },
+        ),
+        BlocProvider<UploadFile2Cubit>(
+          create: (context) {
+            return UploadFile2Cubit();
           },
         ),
       ],
@@ -97,6 +125,12 @@ class AuthBasedRouting extends StatelessWidget {
     BlocProvider.of<LocalStorageCubit>(context).getUserDataFromLocalStorage();
     return BlocConsumer<LocalStorageCubit, LocalStorageState>(
       listener: (context, state) {
+        if (state is LocalStorageClearingUserSuccessState) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            LoginScreen.routeName,
+            (route) => false,
+          );
+        }
         if (state is LocalStorageFetchingDoneState) {
           AuthBasedRouting.afterLogin = state.afterLogin;
           Navigator.of(context).pushNamedAndRemoveUntil(
@@ -106,12 +140,14 @@ class AuthBasedRouting extends StatelessWidget {
         }
         if (state is LocalStorageUserNotPresentState) {
           Navigator.of(context).pushNamedAndRemoveUntil(
+            // AddTaskScreen.routeName,
             LoginScreen.routeName,
             (route) => false,
           );
         }
         if (state is LocalStorageFetchingFailedState) {
           Navigator.of(context).pushNamedAndRemoveUntil(
+            // AddTaskScreen.routeName,
             LoginScreen.routeName,
             (route) => false,
           );

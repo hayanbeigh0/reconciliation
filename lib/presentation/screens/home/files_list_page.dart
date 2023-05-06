@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
+import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 import 'package:reconciliation/presentation/utils/functions/date_formatter.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
-import 'package:reconciliation/presentation/widgets/primary_button.dart';
 
 class FilesListPage extends StatelessWidget {
   static const routeName = '/filesListPage';
@@ -31,6 +31,8 @@ class FilesListPage extends StatelessWidget {
           case '/viewFile':
             builder = (BuildContext context) => ViewFile(
                   reconciliationReferenceId: args['reconciliationReferenceId'],
+                  referenceName: args['referenceName'],
+                  status: args['status'],
                 );
             break;
           // case '/contact':
@@ -66,12 +68,7 @@ class FilesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-          // border: Border.all(
-          //   color: AppColors.colorPrimary,
-          // ),
-          // borderRadius: BorderRadius.only(10),
-          ),
+      decoration: const BoxDecoration(),
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -103,31 +100,45 @@ class FilesListItem extends StatelessWidget {
               ),
             ),
             const VerticalDivider(
+              thickness: 1,
+              width: 1,
               color: AppColors.colorPrimary,
             ),
             Expanded(
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: AppColors.colorPrimary,
-                  padding: const EdgeInsets.all(10),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  color: status != "COMPLETE"
+                      ? const Color.fromARGB(255, 230, 230, 230)
+                      : Colors.transparent,
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    '/viewFile',
-                    arguments: {
-                      "reconciliationReferenceId": int.parse(referenceId)
-                    },
-                  );
-                },
-                child: const Text(
-                  'View',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.colorPrimary,
+                child: InkWell(
+                  onTap: status != "COMPLETE"
+                      ? null
+                      : () {
+                          BlocProvider.of<SheetOneDataEnquiryCubit>(context)
+                              .clearTableRowData();
+                          Navigator.of(context).pushNamed(
+                            '/viewFile',
+                            arguments: {
+                              "reconciliationReferenceId":
+                                  int.parse(referenceId),
+                              "referenceName": reference,
+                              "status": status
+                            },
+                          );
+                        },
+                  child: Center(
+                    child: Text(
+                      'View',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: status != "COMPLETE"
+                            ? Colors.grey
+                            : AppColors.colorPrimary,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -135,7 +146,7 @@ class FilesListItem extends StatelessWidget {
             // VerticalDivider(),
             Expanded(
               child: InkWell(
-                onTap: sheet1ResultPath == null || sheet2ResultPath == null
+                onTap: status != "COMPLETE"
                     ? null
                     : () {
                         BlocProvider.of<GetJobCubit>(context)
@@ -143,18 +154,21 @@ class FilesListItem extends StatelessWidget {
                       },
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  color:
-                      sheet1ResultPath == 'null' || sheet2ResultPath == 'null'
-                          ? Colors.grey
-                          : AppColors.colorPrimary,
+                  color: sheet1ResultPath == null || sheet2ResultPath == null
+                      ? Colors.grey
+                      : AppColors.colorPrimary,
                   child: Text(
-                    'Download',
+                    status == 'ERROR'
+                        ? 'Error'
+                        : status != "COMPLETE"
+                            ? 'Processing'
+                            : 'Download',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      backgroundColor: sheet1ResultPath == 'null' ||
-                              sheet2ResultPath == 'null'
-                          ? Colors.grey
-                          : AppColors.colorPrimary,
+                    style: const TextStyle(
+                      // backgroundColor: status != "COMPLETE"
+                      //     ? Colors.grey
+                      //     :
+                      // AppColors.colorPrimary,
                       color: AppColors.colorWhite,
                     ),
                   ),
@@ -175,8 +189,8 @@ class PagesList extends StatelessWidget {
   TextEditingController fromDateController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
   TextEditingController referenceController = TextEditingController();
-  late String statusDropdownValue;
-  List<String> statusDropdownValues = ['Initiated'];
+  String? statusDropdownValue;
+  List<String> statusDropdownValues = ['Started'];
 
   @override
   Widget build(BuildContext context) {
@@ -425,7 +439,19 @@ class PagesList extends StatelessWidget {
                           ),
                           backgroundColor: AppColors.colorPrimary,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (fromDate == null &&
+                              toDate == null &&
+                              statusDropdownValue == null &&
+                              referenceController.text.isEmpty) return;
+                          BlocProvider.of<GetJobCubit>(context)
+                              .getFilteredJobList(
+                            dateFrom: fromDate,
+                            dateTo: toDate,
+                            status: statusDropdownValue,
+                            reference: referenceController.text,
+                          );
+                        },
                         child: const Text(
                           'Search',
                           style: TextStyle(

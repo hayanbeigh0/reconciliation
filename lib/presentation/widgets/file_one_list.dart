@@ -1,19 +1,55 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 import 'package:reconciliation/presentation/widgets/table_one_data.dart';
 
-class FileOneList extends StatelessWidget {
+class FileOneList extends StatefulWidget {
   FileOneList({super.key, required this.reconciliationReferenceId});
   final int reconciliationReferenceId;
+
+  @override
+  State<FileOneList> createState() => _FileOneListState();
+}
+
+class _FileOneListState extends State<FileOneList> {
   TextEditingController referenceNameController = TextEditingController();
+
+  TextEditingController amountFromController = TextEditingController();
+
+  TextEditingController amountToController = TextEditingController();
+
   TextEditingController referenceController = TextEditingController();
+
   TextEditingController statusController = TextEditingController();
-  List<String> confirmationDropdownItems = ['Confirmed', 'Not Confirmed'];
-  late String statusDropdownValue;
-  late String confirmationFilterDropdownValue;
-  final List<String> statusDropdownValues = ['Initiated'];
+
+  List<String> confirmationDropdownItems = [
+    'Confirmed',
+    'Not Confirmed',
+  ];
+
+  Map<int, dynamic> confirmationDropdownItemsMap = {
+    0: "Not confirmed",
+    1: "Confirmed",
+    2: "--ALL--",
+  };
+
+  String? statusDropdownValue;
+
+  int? confirmationFilterDropdownValue;
+
+  final List<String?> statusDropdownValues = [
+    '--ALL--',
+    'MATCHED',
+    'MOSTLY_MATCHED',
+    'POSSIBLY_MATCHED',
+    'UNMATCHED',
+    'DUPLICATES',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +81,8 @@ class FileOneList extends StatelessWidget {
                 ),
                 Expanded(
                   child: FilterTextField(
-                    referenceController: referenceController,
+                    textInputType: TextInputType.number,
+                    referenceController: amountFromController,
                     hintText: 'Amount From',
                   ),
                 ),
@@ -54,7 +91,8 @@ class FileOneList extends StatelessWidget {
                 ),
                 Expanded(
                   child: FilterTextField(
-                    referenceController: referenceController,
+                    textInputType: TextInputType.number,
+                    referenceController: amountToController,
                     hintText: 'Amount To',
                   ),
                 ),
@@ -75,7 +113,7 @@ class FileOneList extends StatelessWidget {
                       horizontal: 15,
                     ),
                     child: DropdownButtonFormField(
-                      // value: statusDropdownValue,
+                      value: statusDropdownValue,
                       isExpanded: true,
                       iconSize: 24,
                       icon: const Icon(
@@ -104,7 +142,13 @@ class FileOneList extends StatelessWidget {
                           )
                           .toList(),
                       onChanged: (value) {
-                        statusDropdownValue = value.toString();
+                        if (value == '--ALL--') {
+                          setState(() {
+                            statusDropdownValue = null;
+                          });
+                        } else {
+                          statusDropdownValue = value.toString();
+                        }
                       },
                     ),
                   ),
@@ -125,8 +169,8 @@ class FileOneList extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15,
                     ),
-                    child: DropdownButtonFormField(
-                      // value: statusDropdownValue,
+                    child: DropdownButtonFormField<int>(
+                      value: confirmationFilterDropdownValue,
                       isExpanded: true,
                       iconSize: 24,
                       icon: const Icon(
@@ -142,12 +186,13 @@ class FileOneList extends StatelessWidget {
                         labelStyle: AppStyles.dropdownTextStyle,
                         border: InputBorder.none,
                       ),
-                      items: confirmationDropdownItems
+                      items: confirmationDropdownItemsMap.keys
+                          .toList()
                           .map(
-                            (item) => DropdownMenuItem<String>(
+                            (item) => DropdownMenuItem<int>(
                               value: item,
                               child: Text(
-                                item.toString(),
+                                confirmationDropdownItemsMap[item],
                                 maxLines: 1,
                                 style: AppStyles.dropdownTextStyle,
                               ),
@@ -155,7 +200,14 @@ class FileOneList extends StatelessWidget {
                           )
                           .toList(),
                       onChanged: (value) {
-                        confirmationFilterDropdownValue = value.toString();
+                        if (value == 2) {
+                          setState(() {
+                            confirmationFilterDropdownValue = null;
+                          });
+                        } else {
+                          log('Confirmation value: $confirmationFilterDropdownValue');
+                          confirmationFilterDropdownValue = value!;
+                        }
                       },
                     ),
                   ),
@@ -175,7 +227,31 @@ class FileOneList extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        num? amountFrom = amountFromController.text.isEmpty
+                            ? null
+                            : int.parse(amountFromController.text);
+                        num? amountTo = amountToController.text.isEmpty
+                            ? null
+                            : int.parse(amountToController.text);
+                        BlocProvider.of<SheetOneDataEnquiryCubit>(context)
+                            .loadSheetOneFilteredData(
+                          reference: referenceController.text.isEmpty
+                              ? null
+                              : referenceController.text,
+                          amountFrom: amountFrom,
+                          amountTo: amountTo,
+                          status: statusDropdownValue,
+                          confirmation: confirmationFilterDropdownValue,
+                          pageNumber: 1,
+                          reconciliationReferenceId:
+                              widget.reconciliationReferenceId,
+                          sheetNumber: 1,
+                          subStatus: null,
+                        );
+                      });
+                    },
                     child: const Text(
                       'Search',
                       style: TextStyle(
@@ -200,7 +276,13 @@ class FileOneList extends StatelessWidget {
               )),
               Expanded(
                   child: Text(
-                'Reference',
+                'Reference 1',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Reference 2',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
@@ -251,7 +333,18 @@ class FileOneList extends StatelessWidget {
             height: 2,
           ),
           TableData(
-            reconciliationReferenceId: reconciliationReferenceId,
+            reconciliationReferenceId: widget.reconciliationReferenceId,
+            amountFrom: amountFromController.text.isEmpty
+                ? null
+                : num.parse(amountFromController.value.text),
+            amountTo: amountToController.text.isEmpty
+                ? null
+                : num.parse(amountToController.text.toString()),
+            confirmation: confirmationFilterDropdownValue,
+            reference: referenceController.text.isEmpty
+                ? null
+                : referenceController.text,
+            status: statusDropdownValue,
           ),
         ],
       ),

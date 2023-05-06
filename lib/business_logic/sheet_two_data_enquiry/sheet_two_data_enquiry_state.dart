@@ -21,11 +21,13 @@ class SheetTwoEnquiryStartedState extends SheetTwoDataEnquiryState {
 
 class SheetTwoEnquiryDoneState extends SheetTwoDataEnquiryState {
   final List<TableRowData> tableRowData;
+  final int currentPage;
   const SheetTwoEnquiryDoneState({
     required this.tableRowData,
+    required this.currentPage,
   });
   @override
-  List<Object?> get props => [tableRowData];
+  List<Object?> get props => [tableRowData, currentPage];
 }
 
 class SheetTwoEnquiryFailedState extends SheetTwoDataEnquiryState {

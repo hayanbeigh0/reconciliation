@@ -64,6 +64,16 @@ class ReferenceNotAvailableState extends AddJobState {
   List<Object?> get props => [];
 }
 
+class AddingFileState extends AddJobState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddedFileState extends AddJobState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ReferenceNotFetchingState extends AddJobState {
   @override
   List<Object?> get props => [];

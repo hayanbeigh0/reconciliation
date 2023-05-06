@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:html' as html;
 
@@ -15,12 +14,12 @@ class GetJobCubit extends Cubit<GetJobState> {
   List<JobList> allJobs = [];
   GetJobCubit(this.getJobRepository) : super(GetJobInitial());
   final GetJobRepository getJobRepository;
+  List<JobList> jobList = [];
   Future<void> getJobList() async {
     emit(GettingJobListState());
     try {
       final response = await getJobRepository.getJobList();
-      print('Job list response: ${jsonEncode(response.data.toString())}');
-      List<JobList> jobList = (response.data as List<dynamic>)
+      jobList = (response.data as List<dynamic>)
           .map((e) => JobList.fromJson(e))
           .toList();
 
@@ -52,6 +51,39 @@ class GetJobCubit extends Cubit<GetJobState> {
       log('Downloading job failed: ${e.message}');
       emit(JobDownloadingFailedState());
     }
+  }
+
+  void getFilteredJobList({
+    required DateTime? dateFrom,
+    required DateTime? dateTo,
+    required String? status,
+    required String? reference,
+  }) {
+    emit(GettingJobListState());
+    List<JobList> filteredJobList = jobList.where((element) {
+      if ((dateFrom == null ||
+              DateTime.parse(element.createdDateTime.toString())
+                  .isAfter(DateTime.parse(dateFrom.toString()))) &&
+          (dateTo == null ||
+              DateTime.parse(element.createdDateTime.toString())
+                  .isBefore(DateTime.parse(dateTo.toString()))) &&
+          (status == null ||
+              status.isEmpty ||
+              status.toLowerCase() ==
+                  element.reconciliationStatus!.toLowerCase()) &&
+          (reference == null ||
+              reference.isEmpty ||
+              reference.replaceAll(' ', '').toLowerCase() ==
+                  element.reconciliationReference!
+                      .replaceAll(' ', '')
+                      .toLowerCase())) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+    log(filteredJobList.length.toString());
+    emit(GettingJobListDoneState(jobList: filteredJobList));
   }
 
   void downloadFileFromUrl(String url1, String url2) async {

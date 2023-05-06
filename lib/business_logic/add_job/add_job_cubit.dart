@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -21,8 +20,8 @@ class AddJobCubit extends Cubit<AddJobState> {
     required String file2Name,
     required List<String> columns1,
     required List<String> columns2,
-    required Map<String, String> sheet1Mapping,
-    required Map<String, String> sheet2Mapping,
+    required Map<String, dynamic> sheet1Mapping,
+    required Map<String, dynamic> sheet2Mapping,
   }) async {
     emit(AddingJobState());
     try {
@@ -34,7 +33,6 @@ class AddJobCubit extends Cubit<AddJobState> {
         columns1: columns1,
         columns2: columns2,
       );
-      log('Successfully uploaded: ${response.data.toString()}');
       FileUploadResult fileUploadResult =
           FileUploadResult.fromJson(response.data);
       // emit(FileUploadSuccessState(fileUploadResult: fileUploadResult));
@@ -58,8 +56,8 @@ class AddJobCubit extends Cubit<AddJobState> {
     required String referenceName,
     required String sheet1Path,
     required String sheet2Path,
-    required Map<String, String> sheet1Mapping,
-    required Map<String, String> sheet2Mapping,
+    required Map<String, dynamic> sheet1Mapping,
+    required Map<String, dynamic> sheet2Mapping,
   }) async {
     // try {
     final response = await addJobRepository.addjob(
@@ -94,5 +92,13 @@ class AddJobCubit extends Cubit<AddJobState> {
 
   noReferenceRequired() {
     emit(ReferenceNotFetchingState());
+  }
+
+  addingFile() {
+    emit(AddingFileState());
+  }
+
+  addedFileState() {
+    emit(AddedFileState());
   }
 }

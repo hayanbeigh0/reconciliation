@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -22,10 +23,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try {
       final response = await authenticationRepository.signIn(phoneNumber);
       final responseBody = response.data;
+      print(jsonEncode(responseBody.toString()));
       if (response.statusCode == 200) {
         if (responseBody['CUSTOM_CHALLENGE'] != null &&
-            responseBody['Session'] != null) {
-          sessionId = responseBody['Session'];
+            responseBody['session'] != null) {
+          sessionId = responseBody['session'];
         } else {
           sessionId = responseBody['session'];
           username = responseBody['username'];
@@ -96,15 +98,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           error: e.response!.statusMessage.toString(),
         ),
       );
+    } catch (e) {
+      log(e.toString());
     }
   }
 
   verifyOtp(Map<String, dynamic> userDetails, String otp) async {
+    print('Verify Otp Cubit UserDetails: ${userDetails.toString()}');
     emit(AuthenticationLoadingState());
     try {
       final Response response =
           await authenticationRepository.verifyOtp(userDetails, otp);
-      log(response.data.toString());
       final responseBody = response.data;
       if (response.statusCode == 200) {
         if (responseBody['AuthenticationResult'] == null) {
@@ -114,7 +118,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
                   " Oops! That OTP didn't work. Please check and enter the correct OTP.",
             ),
           );
-          sessionId = responseBody['session'];
+          sessionId = responseBody['Session'];
           username = username;
           emit(
             OTPSentState(
@@ -141,6 +145,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         );
       }
     } on DioError catch (e) {
+      log('Login error:${e.message}');
       if (e.type == DioErrorType.connectionTimeout ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout) {
@@ -205,7 +210,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         );
         return;
       }
-      log(error: e.response.toString(), '33');
+      print('33:${e.response.toString()}');
       emit(
         const AuthenticationOtpErrorState(
           error: ' Unknown error occurred!',
@@ -218,6 +223,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           phoneNumber: phoneNumber.toString(),
         ),
       );
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

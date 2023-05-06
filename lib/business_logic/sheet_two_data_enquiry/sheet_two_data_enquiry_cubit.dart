@@ -12,6 +12,8 @@ class SheetTwoDataEnquiryCubit extends Cubit<SheetTwoDataEnquiryState> {
   final DataEnquiryRepository dataEnquiryRepository;
   SheetTwoDataEnquiryCubit(this.dataEnquiryRepository)
       : super(SheetTwoDataEnquiryInitial());
+  List<TableRowData> tableRowData = [];
+  List<TableRowData> filteredTableRowData = [];
   getSheetTwoData({
     required int reconciliationReferenceId,
     required String matchReferenceNumber,
@@ -22,10 +24,16 @@ class SheetTwoDataEnquiryCubit extends Cubit<SheetTwoDataEnquiryState> {
         reconciliationReferenceId: reconciliationReferenceId,
         matchReferenceNumber: matchReferenceNumber,
       );
-      List<TableRowData> tableRowData = (response.data as List<dynamic>)
+      // print('Sheet 2 response:${response.data}');
+      tableRowData = (response.data as List<dynamic>)
           .map((e) => TableRowData.fromJson(e))
           .toList();
-      emit(SheetTwoEnquiryDoneState(tableRowData: tableRowData));
+      emit(
+        SheetTwoEnquiryDoneState(
+          tableRowData: tableRowData,
+          currentPage: 2,
+        ),
+      );
     } on DioError catch (e) {
       emit(SheetTwoEnquiryFailedState());
       log(e.response.toString());
@@ -33,6 +41,52 @@ class SheetTwoDataEnquiryCubit extends Cubit<SheetTwoDataEnquiryState> {
   }
 
   eraseSheetTwoData() {
-    emit(const SheetTwoEnquiryDoneState(tableRowData: []));
+    emit(
+      const SheetTwoEnquiryDoneState(
+        tableRowData: [],
+        currentPage: 1,
+      ),
+    );
+  }
+
+  loadSheetTwoFilteredData({
+    required String? reference,
+    required num? amountFrom,
+    required num? amountTo,
+    required String? status,
+    required String? subStatus,
+    required int? confirmation,
+    required int? reconciliationReferenceId,
+    required int? sheetNumber,
+    required int? pageNumber,
+  }) async {
+    if (pageNumber == 1) {
+      filteredTableRowData = [];
+      emit(SheetTwoEnquiryStartedState());
+    }
+    final response = await dataEnquiryRepository.getSheetFilteredData(
+      amountFrom: amountFrom,
+      amountTo: amountTo,
+      status: status,
+      confirmation: confirmation,
+      reference: reference,
+      reconciliationReferenceId: reconciliationReferenceId,
+      subStatus: subStatus,
+      sheetNumber: sheetNumber,
+      pageNumber: pageNumber,
+    );
+    // print('Filtered sheet 2 data:${response.data.toString()}');
+    filteredTableRowData = filteredTableRowData +
+        response.data['Rows']
+            .map((e) => TableRowData.fromJson(e))
+            .toList()
+            .cast<TableRowData>();
+    // log(filteredTableRowData.length.toString());
+    emit(
+      SheetTwoEnquiryDoneState(
+        tableRowData: filteredTableRowData,
+        currentPage: int.parse(response.data['CurrentPage'].toString()),
+      ),
+    );
   }
 }

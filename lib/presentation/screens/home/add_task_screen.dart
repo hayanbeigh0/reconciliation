@@ -25,44 +25,54 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(builder: (context, constraints) {
-        return Column(
-          children: [
-            navBar(constraints),
-            Expanded(
-              child: SizedBox(
-                width: double.infinity,
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (value) {
-                    setState(() {
-                      currentPage = value;
-                    });
-                  },
-                  dragStartBehavior: DragStartBehavior.start,
-                  children: const [
-                    AddTaskPage(),
-                    FilesListPage(),
-                    // ViewFile(),
-                  ],
+      body: BlocListener<LocalStorageCubit, LocalStorageState>(
+        listener: (context, state) {
+          if (state is LocalStorageClearingUserSuccessState) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              LoginScreen.routeName,
+              (route) => false,
+            );
+          }
+        },
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Column(
+            children: [
+              navBar(constraints),
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (value) {
+                      setState(() {
+                        currentPage = value;
+                      });
+                    },
+                    dragStartBehavior: DragStartBehavior.start,
+                    children: const [
+                      AddTaskPage(),
+                      FilesListPage(),
+                      // ViewFile(),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            // Expanded(
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     child: Navigator(
-            //       initialRoute: FilesListPage.routeName,
-            //       onGenerateRoute: (settings) =>
-            //           AppRouter.onGenerateRoute(settings),
-            //     ),
-            //   ),
-            // )
-          ],
-        );
-      }),
+              )
+              // Expanded(
+              //   child: SizedBox(
+              //     width: double.infinity,
+              //     child: Navigator(
+              //       initialRoute: FilesListPage.routeName,
+              //       onGenerateRoute: (settings) =>
+              //           AppRouter.onGenerateRoute(settings),
+              //     ),
+              //   ),
+              // )
+            ],
+          );
+        }),
+      ),
     );
   }
 
@@ -196,23 +206,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             const Spacer(),
             PopupMenuButton(
               position: PopupMenuPosition.under,
-              itemBuilder: (context) => [
+              itemBuilder: (ctx) => [
                 PopupMenuItem(
                   value: 'logout',
                   child: const Text('Logout'),
                   onTap: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.of(context).pop();
-                      // Navigator.of(context).pushAndRemoveUntil(
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const LoginScreen(),
-                      //     ),
-                      //     (route) => false);
-                      // Navigator.of(context).pushNamedAndRemoveUntil(
-                      //     LoginScreen.routeName, (route) => false);
-                      BlocProvider.of<LocalStorageCubit>(context)
-                          .clearStorage();
-                    }
+                    BlocProvider.of<LocalStorageCubit>(context).clearStorage();
                   },
                 ),
               ],

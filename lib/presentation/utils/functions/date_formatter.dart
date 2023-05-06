@@ -7,6 +7,12 @@ class DateFormatter {
     return formattedDate;
   }
 
+  static String formatDateReverse(String timestamp) {
+    DateTime dateTime = DateTime.parse(timestamp);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+    return formattedDate;
+  }
+
   static String formatDateTime(String timestamp) {
     var dateTime = DateTime.parse(timestamp);
     var formatter = DateFormat('hh:mm a - dd/MM/yy');

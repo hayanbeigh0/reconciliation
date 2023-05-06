@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 });
                 SnackBars.sucessMessageSnackbar(
-                    context, '✅Otp sent to ${state.phoneNumber}');
+                    context, '✅ Otp sent to ${state.phoneNumber}');
                 setState(() {
                   mobileNumberFieldEnabled = false;
                   otpFieldsEnabled = true;
@@ -497,6 +497,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                     otpController4
                                                                         .text
                                                                         .isNotEmpty) {
+                                                                  log('Sessions from the login screen: ${state.session.toString()}');
                                                                   BlocProvider.of<
                                                                               AuthenticationCubit>(
                                                                           context)

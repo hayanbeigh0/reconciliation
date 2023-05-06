@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
@@ -13,9 +14,13 @@ import 'package:split_view/split_view.dart';
 class ViewFile extends StatefulWidget {
   static const routeName = '/viewFilePage';
   final int reconciliationReferenceId;
+  final String referenceName;
+  final String status;
   const ViewFile({
     super.key,
     required this.reconciliationReferenceId,
+    required this.referenceName,
+    required this.status,
   });
   @override
   State<ViewFile> createState() => _ViewFileState();
@@ -27,10 +32,11 @@ class _ViewFileState extends State<ViewFile> {
   List<String> statusDropdownValues = ['Initiated'];
   @override
   void initState() {
-    referenceNameController.text = 'Licious_Swiggy_Apr\'21-Jan\'23';
-    statusController.text = 'Unmatched';
+    referenceNameController.text = widget.referenceName;
+    statusController.text = widget.status;
     BlocProvider.of<SheetOneDataEnquiryCubit>(context).getSheetOneData(
       reconciliationReferenceId: widget.reconciliationReferenceId,
+      pageNumber: 1,
     );
     super.initState();
   }
@@ -80,6 +86,44 @@ class _ViewFileState extends State<ViewFile> {
                         width: constraints.maxWidth * 0.15,
                         child: ReferenceNameField(
                           referenceNameController: statusController,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.02,
+                  ),
+                  Column(
+                    children: [
+                      const Text(' '),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 42,
+                            vertical: 22,
+                          ),
+                          backgroundColor: AppColors.colorPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<SheetOneDataEnquiryCubit>(context)
+                              .clearTableRowData();
+                          BlocProvider.of<SheetOneDataEnquiryCubit>(context)
+                              .getSheetOneData(
+                            reconciliationReferenceId:
+                                widget.reconciliationReferenceId,
+                            pageNumber: 1,
+                          );
+                          BlocProvider.of<SheetTwoDataEnquiryCubit>(context)
+                              .eraseSheetTwoData();
+                        },
+                        child: const Text(
+                          'Refresh',
+                          style: TextStyle(
+                            color: AppColors.colorWhite,
+                          ),
                         ),
                       ),
                     ],
@@ -135,7 +179,12 @@ class _ViewFileState extends State<ViewFile> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<GetJobCubit>(context).downloadFile(
+                            referenceId:
+                                widget.reconciliationReferenceId.toString(),
+                          );
+                        },
                         child: const Text(
                           'Download',
                           style: TextStyle(
@@ -198,10 +247,12 @@ class FilterTextField extends StatelessWidget {
     Key? key,
     required this.referenceController,
     required this.hintText,
+    this.textInputType = TextInputType.text,
   }) : super(key: key);
 
   final TextEditingController referenceController;
   final String hintText;
+  final TextInputType textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -221,6 +272,7 @@ class FilterTextField extends StatelessWidget {
         inputFormatters: [
           LengthLimitingTextInputFormatter(50),
         ],
+        keyboardType: textInputType,
         enabled: true,
         decoration: InputDecoration(
           hoverColor: AppColors.colorWhite,
@@ -275,7 +327,7 @@ class ReferenceNameField extends StatelessWidget {
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 110, 125, 255),
             width: 1,
-            strokeAlign: StrokeAlign.center,
+            strokeAlign: BorderSide.strokeAlignCenter,
             style: BorderStyle.solid,
           ),
         ),
@@ -284,7 +336,7 @@ class ReferenceNameField extends StatelessWidget {
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 0, 18, 181),
             width: 1,
-            strokeAlign: StrokeAlign.center,
+            strokeAlign: BorderSide.strokeAlignCenter,
             style: BorderStyle.solid,
           ),
         ),

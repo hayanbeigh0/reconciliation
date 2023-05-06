@@ -15,6 +15,11 @@ class LoadSheetOneDataState extends SheetOneDataEnquiryState {
   List<Object?> get props => [];
 }
 
+class SheetOneInitialEnquiryStartedState extends SheetOneDataEnquiryState {
+  @override
+  List<Object?> get props => [];
+}
+
 class SheetOneEnquiryStartedState extends SheetOneDataEnquiryState {
   @override
   List<Object?> get props => [];
@@ -22,11 +27,13 @@ class SheetOneEnquiryStartedState extends SheetOneDataEnquiryState {
 
 class SheetOneEnquiryDonetate extends SheetOneDataEnquiryState {
   final List<TableRowData> tableRowData;
+  final int currentPage;
   const SheetOneEnquiryDonetate({
     required this.tableRowData,
+    required this.currentPage,
   });
   @override
-  List<Object?> get props => [tableRowData];
+  List<Object?> get props => [tableRowData, currentPage];
 }
 
 class SheetOneEnquiryFailedState extends SheetOneDataEnquiryState {

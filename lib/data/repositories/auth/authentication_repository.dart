@@ -5,7 +5,7 @@ import 'package:reconciliation/constants/env_variable.dart';
 
 class AuthenticationRepository {
   signIn(String phoneNumber) async {
-    var url = "$API_URL/cognito/sign-in";
+    var url = "$API_URL_AUTH/cognito/sign-in";
     var headers = {'Content-Type': 'application/json'};
     var body = jsonEncode({"phone_number": phoneNumber});
 
@@ -22,13 +22,12 @@ class AuthenticationRepository {
   // https://2qt2j8qdff.execute-api.ap-south-1.amazonaws.com/dev
 
   verifyOtp(Map<String, dynamic> userDetails, String otp) async {
-    var url = "$API_URL/cognito/verify";
+    var url = "$API_URL_AUTH/cognito/verify";
     var headers = {'Content-Type': 'application/json'};
     var body = jsonEncode({
       "username": userDetails['username'],
       "session": userDetails['session'],
       "phone_number": userDetails['phone_number'],
-      // "user_type": userDetails['user_type'],
       "answer": otp
     });
     // log(body);

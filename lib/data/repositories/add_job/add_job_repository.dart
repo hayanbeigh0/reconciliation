@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:reconciliation/constants/env_variable.dart';
 
 class AddJobRepository {
   Future<Response> uploadExcel({
@@ -36,7 +37,7 @@ class AddJobRepository {
     //       jsonEncode(["effective from", "SI.No", "price", "billing type"])
 
     Response response = await dio.post(
-      "http://15.206.76.18:8080/api/v1/job/excelUpload",
+      "$API_URL/job/excelUpload",
       data: formData,
       onSendProgress: (count, total) {
         if (total != -1) {
@@ -55,8 +56,8 @@ class AddJobRepository {
     required String referenceName,
     required String sheet1Path,
     required String sheet2Path,
-    required Map<String, String> sheet1Mapping,
-    required Map<String, String> sheet2Mapping,
+    required Map<String, dynamic> sheet1Mapping,
+    required Map<String, dynamic> sheet2Mapping,
   }) async {
     log('Sheet 1 mapping: ${sheet1Mapping.toString()}');
     log('Sheet 2 mapping: ${sheet1Mapping.toString()}');
@@ -64,7 +65,7 @@ class AddJobRepository {
     log('Sheet 2 path: ${sheet2Path.toString()}');
     Dio dio = Dio();
     final response = await dio.post(
-      'http://15.206.76.18:8080/api/v1/job/createJob',
+      '$API_URL/job/createJob',
       data: jsonEncode({
         "ReconciliationReference": referenceName,
         "SheetOnePath": sheet1Path,
@@ -77,11 +78,31 @@ class AddJobRepository {
     return response;
   }
 
+  Future<Response> uploadFile({
+    required Uint8List fileBytes,
+    required String fileName,
+  }) async {
+    Dio dio = Dio();
+    FormData formData = FormData.fromMap({
+      "file": MultipartFile.fromBytes(
+        fileBytes,
+        filename: fileName,
+        contentType: MediaType("application", "vnd.ms-excel"),
+      ),
+    });
+    final response = await dio.post(
+      '$API_URL/job/getExcelColumnHeaders',
+      data: formData,
+    );
+    debugPrint(response.data.toString());
+    return response;
+  }
+
   Future<Response> checkReferenceAvailability(String value) async {
     log('Submitted');
     Dio dio = Dio();
     final response = await dio.post(
-      'http://15.206.76.18:8080/api/v1/job/checkJobReferenceExist',
+      '$API_URL/job/checkJobReferenceExist',
       data: jsonEncode({"reference": value}),
     );
     log(response.data.toString());

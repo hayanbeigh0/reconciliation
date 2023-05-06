@@ -1,19 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 import 'package:reconciliation/presentation/widgets/table_two_data.dart';
 
-class FileTwoList extends StatelessWidget {
+class FileTwoList extends StatefulWidget {
   FileTwoList({super.key, required this.reconciliationReferenceId});
   final int reconciliationReferenceId;
+
+  @override
+  State<FileTwoList> createState() => _FileTwoListState();
+}
+
+class _FileTwoListState extends State<FileTwoList> {
   TextEditingController referenceNameController = TextEditingController();
+
+  TextEditingController amountFromController = TextEditingController();
+
+  TextEditingController amountToController = TextEditingController();
+
   TextEditingController referenceController = TextEditingController();
+
   TextEditingController statusController = TextEditingController();
-  List<String> confirmationDropdownItems = ['Confirmed', 'Not Confirmed'];
-  late String statusDropdownValue;
-  late String confirmationFilterDropdownValue;
-  final List<String> statusDropdownValues = ['Initiated'];
+
+  List<String> confirmationDropdownItems = [
+    'Confirmed',
+    'Not Confirmed',
+    "--ALL--"
+  ];
+
+  Map<int, dynamic> confirmationDropdownItemsMap = {
+    0: "Not confirmed",
+    1: "Confirmed",
+    2: "--ALL--",
+  };
+
+  String? statusDropdownValue;
+
+  int? confirmationFilterDropdownValue;
+
+  final List<String?> statusDropdownValues = [
+    '--ALL--',
+    'MATCHED',
+    'MOSTLY_MATCHED',
+    'POSSIBLY_MATCHED',
+    'UNMATCHED',
+    'DUPLICATES',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +83,7 @@ class FileTwoList extends StatelessWidget {
                 ),
                 Expanded(
                   child: FilterTextField(
-                    referenceController: referenceController,
+                    referenceController: amountFromController,
                     hintText: 'Amount From',
                   ),
                 ),
@@ -57,7 +92,7 @@ class FileTwoList extends StatelessWidget {
                 ),
                 Expanded(
                   child: FilterTextField(
-                    referenceController: referenceController,
+                    referenceController: amountToController,
                     hintText: 'Amount To',
                   ),
                 ),
@@ -78,7 +113,7 @@ class FileTwoList extends StatelessWidget {
                       horizontal: 15,
                     ),
                     child: DropdownButtonFormField(
-                      // value: statusDropdownValue,
+                      value: statusDropdownValue,
                       isExpanded: true,
                       iconSize: 24,
                       icon: const Icon(
@@ -107,7 +142,13 @@ class FileTwoList extends StatelessWidget {
                           )
                           .toList(),
                       onChanged: (value) {
-                        statusDropdownValue = value.toString();
+                        if (value == '--ALL--') {
+                          setState(() {
+                            statusDropdownValue = null;
+                          });
+                        } else {
+                          statusDropdownValue = value.toString();
+                        }
                       },
                     ),
                   ),
@@ -129,7 +170,7 @@ class FileTwoList extends StatelessWidget {
                       horizontal: 15,
                     ),
                     child: DropdownButtonFormField(
-                      // value: statusDropdownValue,
+                      value: confirmationFilterDropdownValue,
                       isExpanded: true,
                       iconSize: 24,
                       icon: const Icon(
@@ -145,12 +186,13 @@ class FileTwoList extends StatelessWidget {
                         labelStyle: AppStyles.dropdownTextStyle,
                         border: InputBorder.none,
                       ),
-                      items: confirmationDropdownItems
+                      items: confirmationDropdownItemsMap.keys
+                          .toList()
                           .map(
-                            (item) => DropdownMenuItem<String>(
+                            (item) => DropdownMenuItem<int>(
                               value: item,
                               child: Text(
-                                item.toString(),
+                                confirmationDropdownItemsMap[item].toString(),
                                 maxLines: 1,
                                 style: AppStyles.dropdownTextStyle,
                               ),
@@ -158,7 +200,13 @@ class FileTwoList extends StatelessWidget {
                           )
                           .toList(),
                       onChanged: (value) {
-                        confirmationFilterDropdownValue = value.toString();
+                        if (value == 2) {
+                          setState(() {
+                            confirmationFilterDropdownValue = null;
+                          });
+                        } else {
+                          confirmationFilterDropdownValue = value!;
+                        }
                       },
                     ),
                   ),
@@ -178,7 +226,31 @@ class FileTwoList extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        num? amountFrom = amountFromController.text.isEmpty
+                            ? null
+                            : double.parse(amountFromController.text);
+                        num? amountTo = amountToController.text.isEmpty
+                            ? null
+                            : double.parse(amountToController.text);
+                        BlocProvider.of<SheetTwoDataEnquiryCubit>(context)
+                            .loadSheetTwoFilteredData(
+                          pageNumber: 1,
+                          sheetNumber: 2,
+                          reference: referenceController.text.isEmpty
+                              ? null
+                              : referenceController.text,
+                          amountFrom: amountFrom,
+                          amountTo: amountTo,
+                          status: statusDropdownValue,
+                          confirmation: confirmationFilterDropdownValue,
+                          reconciliationReferenceId:
+                              widget.reconciliationReferenceId,
+                          subStatus: null,
+                        );
+                      });
+                    },
                     child: const Text(
                       'Search',
                       style: TextStyle(
@@ -203,7 +275,13 @@ class FileTwoList extends StatelessWidget {
               )),
               Expanded(
                   child: Text(
-                'Reference',
+                'Reference 1',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+              Expanded(
+                  child: Text(
+                'Reference 2',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
@@ -254,7 +332,18 @@ class FileTwoList extends StatelessWidget {
             height: 2,
           ),
           TableTwoData(
-            reconciliationReferenceId: reconciliationReferenceId,
+            reconciliationReferenceId: widget.reconciliationReferenceId,
+            amountFrom: amountFromController.text.isEmpty
+                ? null
+                : num.parse(amountFromController.value.text),
+            amountTo: amountToController.text.isEmpty
+                ? null
+                : num.parse(amountToController.text.toString()),
+            confirmation: confirmationFilterDropdownValue,
+            reference: referenceController.text.isEmpty
+                ? null
+                : referenceController.text,
+            status: statusDropdownValue,
           ),
         ],
       ),
