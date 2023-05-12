@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_d
 import 'package:reconciliation/business_logic/update_row_data/update_row_data_cubit.dart';
 import 'package:reconciliation/main.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
-import 'package:collection/collection.dart';
 import 'package:reconciliation/presentation/utils/functions/date_formatter.dart';
 import 'package:reconciliation/presentation/utils/functions/snackbars.dart';
 import 'package:reconciliation/presentation/widgets/all_columns_dialog.dart';
@@ -63,7 +61,6 @@ class _TableDataState extends State<TableData> {
         );
         return;
       }
-      log('Page number: $page');
       BlocProvider.of<SheetOneDataEnquiryCubit>(context)
           .loadSheetOneFilteredData(
         reference: widget.reference,
@@ -90,7 +87,6 @@ class _TableDataState extends State<TableData> {
     return BlocListener<UpdateRowDataCubit, UpdateRowDataState>(
       listener: (context, state) {
         if (state is UpdatingRowDataDoneState) {
-          log('listener called UpdatingRowDataDoneState');
           BlocProvider.of<SheetOneDataEnquiryCubit>(context)
               .clearTableRowData();
           BlocProvider.of<SheetOneDataEnquiryCubit>(context)
@@ -103,7 +99,6 @@ class _TableDataState extends State<TableData> {
       child: BlocConsumer<SheetOneDataEnquiryCubit, SheetOneDataEnquiryState>(
         listener: (context, state) {
           if (state is SheetOneEnquiryDonetate) {
-            log('enquiry done');
             if (state.tableRowData.isEmpty) {
               log('empty');
             }

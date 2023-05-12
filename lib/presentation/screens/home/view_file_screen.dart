@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
+import 'package:reconciliation/business_logic/reprocess/reprocess_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
+import 'package:reconciliation/presentation/utils/functions/snackbars.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 import 'package:reconciliation/presentation/widgets/file_one_list.dart';
 import 'package:reconciliation/presentation/widgets/file_two_list.dart';
@@ -134,29 +136,81 @@ class _ViewFileState extends State<ViewFile> {
                       const SizedBox(
                         height: 20,
                       ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 42,
-                            vertical: 22,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: const BorderSide(
-                              color: AppColors.colorPrimary,
+                      BlocConsumer<ReprocessCubit, ReprocessState>(
+                        listener: (context, state) {
+                          if (state is ReprocessingFailedState) {
+                            SnackBars.errorMessageSnackbar(
+                              context,
+                              'Reproccessing failed!',
+                            );
+                          }
+                          if (state is ReprocessingDoneState) {
+                            Navigator.of(context).pop();
+                            BlocProvider.of<GetJobCubit>(context).getJobList();
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is ReprocessingState) {
+                            return SizedBox(
+                              width: 155,
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 42,
+                                    vertical: 22,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: const BorderSide(
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  ),
+                                  side: const BorderSide(
+                                    color: AppColors.colorPrimary,
+                                  ),
+                                ),
+                                onPressed: null,
+                                child: const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.colorPrimary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          return OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 42,
+                                vertical: 22,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: const BorderSide(
+                                  color: AppColors.colorPrimary,
+                                ),
+                              ),
+                              side: const BorderSide(
+                                color: AppColors.colorPrimary,
+                              ),
                             ),
-                          ),
-                          side: const BorderSide(
-                            color: AppColors.colorPrimary,
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Reprocess',
-                          style: TextStyle(
-                            color: AppColors.colorPrimary,
-                          ),
-                        ),
+                            onPressed: () {
+                              BlocProvider.of<ReprocessCubit>(context)
+                                  .reprocess(
+                                reconciliationReferenceId:
+                                    widget.reconciliationReferenceId,
+                              );
+                            },
+                            child: const Text(
+                              'Reprocess',
+                              style: TextStyle(
+                                color: AppColors.colorPrimary,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

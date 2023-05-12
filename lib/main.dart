@@ -6,6 +6,7 @@ import 'package:reconciliation/business_logic/auth/authentication_cubit.dart';
 import 'package:reconciliation/business_logic/get_complete_row/get_complete_row_cubit.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
+import 'package:reconciliation/business_logic/reprocess/reprocess_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/update_row_data/update_row_data_cubit.dart';
@@ -96,6 +97,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<UploadFile2Cubit>(
           create: (context) {
             return UploadFile2Cubit();
+          },
+        ),
+        BlocProvider<ReprocessCubit>(
+          create: (context) {
+            return ReprocessCubit();
           },
         ),
       ],

@@ -33,9 +33,9 @@ class _FileOneListState extends State<FileOneList> {
   ];
 
   Map<int, dynamic> confirmationDropdownItemsMap = {
+    2: "--ALL--",
     0: "Not confirmed",
     1: "Confirmed",
-    2: "--ALL--",
   };
 
   String? statusDropdownValue;

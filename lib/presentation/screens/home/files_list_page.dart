@@ -471,8 +471,8 @@ class PagesList extends StatelessWidget {
                 ),
                 IntrinsicHeight(
                   child: Row(
-                    children: const [
-                      Expanded(
+                    children: [
+                      const Expanded(
                         child: Text(
                           'Date',
                           style: TextStyle(
@@ -481,8 +481,7 @@ class PagesList extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           'Reference',
                           textAlign: TextAlign.center,
@@ -491,8 +490,7 @@ class PagesList extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           'Status',
                           textAlign: TextAlign.center,
@@ -501,13 +499,32 @@ class PagesList extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      Expanded(
+                      const Expanded(
                         child: SizedBox(),
                       ),
-                      // VerticalDivider(),
-                      Expanded(
-                        child: SizedBox(),
+                      IconButton(
+                        onPressed: () {
+                          BlocProvider.of<GetJobCubit>(context).getJobList();
+                        },
+                        icon: BlocBuilder<GetJobCubit, GetJobState>(
+                          builder: (context, state) {
+                            if (state is GettingJobListState) {
+                              return const Center(
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.colorPrimary,
+                                  ),
+                                ),
+                              );
+                            }
+                            return const Icon(
+                              Icons.refresh,
+                              color: AppColors.colorPrimary,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
