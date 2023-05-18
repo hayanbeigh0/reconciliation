@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
 import 'package:reconciliation/main.dart';
 import 'package:reconciliation/presentation/screens/home/add_task_page.dart';
@@ -34,44 +37,73 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             );
           }
         },
-        child: LayoutBuilder(builder: (context, constraints) {
-          return Column(
-            children: [
-              navBar(constraints),
-              Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (value) {
-                      setState(() {
-                        currentPage = value;
-                      });
-                    },
-                    dragStartBehavior: DragStartBehavior.start,
-                    children: const [
-                      AddTaskPage(),
-                      FilesListPage(),
-                      // ViewFile(),
-                    ],
+        child: BlocListener<GetJobDetailsCubit, GetJobDetailsState>(
+          listener: (context, state) async {
+            if (state is ResultPathsEmptyState) {
+              log('Getting job details listener!');
+              final reconciliationReferenceIds =
+                  state.requestedForDownloadJobs.toList();
+              for (final reconciliationReferenceId
+                  in reconciliationReferenceIds) {
+                await BlocProvider.of<GetJobDetailsCubit>(context)
+                    .getJobDetailsById(
+                  reconciliationReferenceId.toString(),
+                );
+              }
+            }
+            if (state is ResultPathsNotEmptyState) {
+              if (mounted) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const AlertDialog(
+                      contentPadding: EdgeInsets.all(20),
+                      content: Text('File is ready to download!'),
+                    );
+                  },
+                );
+              }
+            }
+          },
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: [
+                navBar(constraints),
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      scrollDirection: Axis.horizontal,
+                      onPageChanged: (value) {
+                        setState(() {
+                          currentPage = value;
+                        });
+                      },
+                      dragStartBehavior: DragStartBehavior.start,
+                      children: const [
+                        AddTaskPage(),
+                        FilesListPage(),
+                        // ViewFile(),
+                      ],
+                    ),
                   ),
-                ),
-              )
-              // Expanded(
-              //   child: SizedBox(
-              //     width: double.infinity,
-              //     child: Navigator(
-              //       initialRoute: FilesListPage.routeName,
-              //       onGenerateRoute: (settings) =>
-              //           AppRouter.onGenerateRoute(settings),
-              //     ),
-              //   ),
-              // )
-            ],
-          );
-        }),
+                )
+                // Expanded(
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     child: Navigator(
+                //       initialRoute: FilesListPage.routeName,
+                //       onGenerateRoute: (settings) =>
+                //           AppRouter.onGenerateRoute(settings),
+                //     ),
+                //   ),
+                // )
+              ],
+            );
+          }),
+        ),
       ),
     );
   }

@@ -5,11 +5,10 @@ import 'package:reconciliation/constants/env_variable.dart';
 
 class GetJobRepository {
   Future<Response> getJobList() async {
-    log('getting jobs from the repository');
     final response = await Dio().get(
       '$API_URL/job/getAllActiveJobs',
     );
-    print(response.data.toString());
+    // print('Job List from repository: ${response.data.toString()}');
     return response;
   }
 
@@ -18,6 +17,13 @@ class GetJobRepository {
     final response = await Dio().post(
       '$API_URL/job/excelDownload',
       data: {"ReconciliationReferenceId": int.parse(referenceId)},
+    );
+    return response;
+  }
+
+  Future<Response> getJobDetailsById(String reconciliationReferenceId) async {
+    final response = await Dio().get(
+      '$API_URL/job/jobDetailsById/$reconciliationReferenceId',
     );
     return response;
   }

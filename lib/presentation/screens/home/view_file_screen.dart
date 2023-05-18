@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
+import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/reprocess/reprocess_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_two_data_enquiry/sheet_two_data_enquiry_cubit.dart';
@@ -222,29 +225,85 @@ class _ViewFileState extends State<ViewFile> {
                       const SizedBox(
                         height: 20,
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 42,
-                            vertical: 22,
-                          ),
-                          backgroundColor: AppColors.colorPrimary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          BlocProvider.of<GetJobCubit>(context).downloadFile(
-                            referenceId:
+                      BlocBuilder<GetJobDetailsCubit, GetJobDetailsState>(
+                        builder: (context, state) {
+                          if (state is ResultPathsEmptyState &&
+                              state.requestedForDownloadJobs.contains(widget
+                                  .reconciliationReferenceId
+                                  .toString())) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 42,
+                                  vertical: 22,
+                                ),
+                                backgroundColor: AppColors.colorPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: null,
+                              child: const Text(
+                                'Download Requested',
+                                style: TextStyle(
+                                  color: AppColors.colorWhite,
+                                ),
+                              ),
+                            );
+                          }
+                          if (state is GettingJobDetailsByIdState &&
+                              state.requestedForDownloadJobs.contains(widget
+                                  .reconciliationReferenceId
+                                  .toString())) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 42,
+                                  vertical: 22,
+                                ),
+                                backgroundColor: AppColors.colorPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: null,
+                              child: const Text(
+                                'Download Requested',
+                                style: TextStyle(
+                                  color: AppColors.colorWhite,
+                                ),
+                              ),
+                            );
+                          }
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 42,
+                                vertical: 22,
+                              ),
+                              backgroundColor: AppColors.colorPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              // BlocProvider.of<GetJobCubit>(context).downloadFile(
+                              //   referenceId:
+                              //       widget.reconciliationReferenceId.toString(),
+                              // );
+                              BlocProvider.of<GetJobDetailsCubit>(context)
+                                  .getJobDetailsById(
                                 widget.reconciliationReferenceId.toString(),
+                              );
+                            },
+                            child: const Text(
+                              'Request Download',
+                              style: TextStyle(
+                                color: AppColors.colorWhite,
+                              ),
+                            ),
                           );
                         },
-                        child: const Text(
-                          'Download',
-                          style: TextStyle(
-                            color: AppColors.colorWhite,
-                          ),
-                        ),
                       ),
                     ],
                   )

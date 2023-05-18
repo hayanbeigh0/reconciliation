@@ -5,6 +5,7 @@ import 'package:reconciliation/business_logic/add_job/add_job_cubit.dart';
 import 'package:reconciliation/business_logic/auth/authentication_cubit.dart';
 import 'package:reconciliation/business_logic/get_complete_row/get_complete_row_cubit.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
+import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
 import 'package:reconciliation/business_logic/reprocess/reprocess_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
@@ -102,6 +103,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<ReprocessCubit>(
           create: (context) {
             return ReprocessCubit();
+          },
+        ),
+        BlocProvider<GetJobDetailsCubit>(
+          create: (context) {
+            return GetJobDetailsCubit();
           },
         ),
       ],

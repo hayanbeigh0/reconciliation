@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:html' as html;
+import 'dart:js_interop';
 
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';

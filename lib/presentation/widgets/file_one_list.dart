@@ -9,7 +9,7 @@ import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 import 'package:reconciliation/presentation/widgets/table_one_data.dart';
 
 class FileOneList extends StatefulWidget {
-  FileOneList({super.key, required this.reconciliationReferenceId});
+  const FileOneList({super.key, required this.reconciliationReferenceId});
   final int reconciliationReferenceId;
 
   @override
@@ -266,8 +266,8 @@ class _FileOneListState extends State<FileOneList> {
           const SizedBox(
             height: 20,
           ),
-          Row(
-            children: const [
+          const Row(
+            children: [
               Expanded(
                   child: Text(
                 'Matched Reference',
