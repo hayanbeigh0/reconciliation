@@ -41,15 +41,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           listener: (context, state) async {
             if (state is ResultPathsEmptyState) {
               log('Getting job details listener!');
-              final reconciliationReferenceIds =
-                  state.requestedForDownloadJobs.toList();
-              for (final reconciliationReferenceId
-                  in reconciliationReferenceIds) {
-                await BlocProvider.of<GetJobDetailsCubit>(context)
-                    .getJobDetailsById(
-                  reconciliationReferenceId.toString(),
-                );
-              }
+              await BlocProvider.of<GetJobDetailsCubit>(context)
+                  .getJobDetailsById(
+                state.reconciliationReferenceId.toString(),
+              );
             }
             if (state is ResultPathsNotEmptyState) {
               if (mounted) {

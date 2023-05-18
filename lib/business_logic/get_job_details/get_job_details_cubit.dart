@@ -13,36 +13,38 @@ class GetJobDetailsCubit extends Cubit<GetJobDetailsState> {
   static List<String> requestedForDownloadJobs = [];
 
   Future<void> getJobDetailsById(String reconciliationReferenceId) async {
-    requestedForDownloadJobs.add(reconciliationReferenceId);
-    requestedForDownloadJobs = requestedForDownloadJobs.toSet().toList();
+    // requestedForDownloadJobs.add(reconciliationReferenceId);
+    // requestedForDownloadJobs = requestedForDownloadJobs.toSet().toList();
     log('Download queue length: ${requestedForDownloadJobs.length}');
     try {
       emit(GettingJobDetailsByIdState(
-        requestedForDownloadJobs: List.from(requestedForDownloadJobs),
+        reconciliationReferenceId: reconciliationReferenceId,
       ));
 
-      for (final referenceId in requestedForDownloadJobs) {
-        await Future.delayed(const Duration(seconds: 3));
-        final response = await getJobRepository.getJobDetailsById(referenceId);
-        print('Job detail response: ${response.data.toString()}');
+      // for (final referenceId in requestedForDownloadJobs) {
+      await Future.delayed(const Duration(seconds: 3));
+      final response =
+          await getJobRepository.getJobDetailsById(reconciliationReferenceId);
+      print('Job detail response: ${response.data.toString()}');
 
-        if (response.data[0]['SheetOneResultPath'] == null ||
-            response.data[0]['SheetOneResultPath'].isEmpty ||
-            response.data[0]['SheetTwoResultPath'] == null ||
-            response.data[0]['SheetTwoResultPath'].isEmpty) {
-          log('Empty result paths!');
-          emit(ResultPathsEmptyState(
-            requestedForDownloadJobs: List.from(requestedForDownloadJobs),
-          ));
-        } else {
-          log('Result paths are available!');
-          requestedForDownloadJobs.removeWhere((id) => id == referenceId);
+      if (response.data[0]['SheetOneResultPath'] == null ||
+          response.data[0]['SheetOneResultPath'].isEmpty ||
+          response.data[0]['SheetTwoResultPath'] == null ||
+          response.data[0]['SheetTwoResultPath'].isEmpty) {
+        log('Empty result paths!');
+        emit(ResultPathsEmptyState(
+          reconciliationReferenceId: reconciliationReferenceId,
+        ));
+      } else {
+        log('Result paths are available!');
+        // requestedForDownloadJobs
+        //     .removeWhere((id) => id == reconciliationReferenceId);
 
-          emit(ResultPathsNotEmptyState(
-            requestedForDownloadJobs: List.from(requestedForDownloadJobs),
-          ));
-        }
+        emit(ResultPathsNotEmptyState(
+          reconciliationReferenceId: reconciliationReferenceId,
+        ));
       }
+      // }
     } on DioError catch (e) {
       emit(GettingJobDetailsByIdFailedState());
       log('Getting job details by Id error: ${e.toString()}');

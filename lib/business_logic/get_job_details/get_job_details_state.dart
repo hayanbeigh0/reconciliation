@@ -10,11 +10,11 @@ class GetJobDetailsInitial extends GetJobDetailsState {
 }
 
 class GettingJobDetailsByIdState extends GetJobDetailsState {
-  final List<String> requestedForDownloadJobs;
+  final String reconciliationReferenceId;
 
-  const GettingJobDetailsByIdState({required this.requestedForDownloadJobs});
+  const GettingJobDetailsByIdState({required this.reconciliationReferenceId});
   @override
-  List<Object?> get props => [requestedForDownloadJobs];
+  List<Object?> get props => [reconciliationReferenceId];
 }
 
 class GettingJobDetailsByIdFailedState extends GetJobDetailsState {
@@ -23,17 +23,17 @@ class GettingJobDetailsByIdFailedState extends GetJobDetailsState {
 }
 
 class ResultPathsEmptyState extends GetJobDetailsState {
-  final List<String> requestedForDownloadJobs;
+  final String reconciliationReferenceId;
 
-  const ResultPathsEmptyState({required this.requestedForDownloadJobs});
+  const ResultPathsEmptyState({required this.reconciliationReferenceId});
   @override
-  List<Object?> get props => [requestedForDownloadJobs];
+  List<Object?> get props => [reconciliationReferenceId];
 }
 
 class ResultPathsNotEmptyState extends GetJobDetailsState {
-  final List<String> requestedForDownloadJobs;
+  final String reconciliationReferenceId;
 
-  const ResultPathsNotEmptyState({required this.requestedForDownloadJobs});
+  const ResultPathsNotEmptyState({required this.reconciliationReferenceId});
   @override
   List<Object?> get props => [];
 }

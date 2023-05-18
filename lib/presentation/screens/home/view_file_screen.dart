@@ -225,12 +225,31 @@ class _ViewFileState extends State<ViewFile> {
                       const SizedBox(
                         height: 20,
                       ),
-                      BlocBuilder<GetJobDetailsCubit, GetJobDetailsState>(
+                      BlocConsumer<GetJobDetailsCubit, GetJobDetailsState>(
+                        listener: (context, state) async {
+                          // if (state is ResultPathsEmptyState) {
+                          //   log('Getting job details listener!');
+                          //   await BlocProvider.of<GetJobDetailsCubit>(context)
+                          //       .getJobDetailsById(
+                          //     state.reconciliationReferenceId.toString(),
+                          //   );
+                          // }
+                          // if (state is ResultPathsNotEmptyState) {
+                          //   if (mounted) {
+                          //     showDialog(
+                          //       context: context,
+                          //       builder: (context) {
+                          //         return const AlertDialog(
+                          //           contentPadding: EdgeInsets.all(20),
+                          //           content: Text('File is ready to download!'),
+                          //         );
+                          //       },
+                          //     );
+                          //   }
+                          // }
+                        },
                         builder: (context, state) {
-                          if (state is ResultPathsEmptyState &&
-                              state.requestedForDownloadJobs.contains(widget
-                                  .reconciliationReferenceId
-                                  .toString())) {
+                          if (state is ResultPathsEmptyState) {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
@@ -244,17 +263,14 @@ class _ViewFileState extends State<ViewFile> {
                               ),
                               onPressed: null,
                               child: const Text(
-                                'Download Requested',
+                                'Request Download',
                                 style: TextStyle(
                                   color: AppColors.colorWhite,
                                 ),
                               ),
                             );
                           }
-                          if (state is GettingJobDetailsByIdState &&
-                              state.requestedForDownloadJobs.contains(widget
-                                  .reconciliationReferenceId
-                                  .toString())) {
+                          if (state is GettingJobDetailsByIdState) {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
@@ -268,7 +284,7 @@ class _ViewFileState extends State<ViewFile> {
                               ),
                               onPressed: null,
                               child: const Text(
-                                'Download Requested',
+                                'Request Download',
                                 style: TextStyle(
                                   color: AppColors.colorWhite,
                                 ),
@@ -287,13 +303,13 @@ class _ViewFileState extends State<ViewFile> {
                               ),
                             ),
                             onPressed: () {
-                              // BlocProvider.of<GetJobCubit>(context).downloadFile(
-                              //   referenceId:
-                              //       widget.reconciliationReferenceId.toString(),
-                              // );
                               BlocProvider.of<GetJobDetailsCubit>(context)
                                   .getJobDetailsById(
                                 widget.reconciliationReferenceId.toString(),
+                              );
+                              SnackBars.sucessMessageSnackbar(
+                                context,
+                                '✅ Download requested successfully!',
                               );
                             },
                             child: const Text(
