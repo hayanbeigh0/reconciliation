@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -249,48 +247,48 @@ class _ViewFileState extends State<ViewFile> {
                           // }
                         },
                         builder: (context, state) {
-                          if (state is ResultPathsEmptyState) {
-                            return ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 42,
-                                  vertical: 22,
-                                ),
-                                backgroundColor: AppColors.colorPrimary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: null,
-                              child: const Text(
-                                'Request Download',
-                                style: TextStyle(
-                                  color: AppColors.colorWhite,
-                                ),
-                              ),
-                            );
-                          }
-                          if (state is GettingJobDetailsByIdState) {
-                            return ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 42,
-                                  vertical: 22,
-                                ),
-                                backgroundColor: AppColors.colorPrimary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: null,
-                              child: const Text(
-                                'Request Download',
-                                style: TextStyle(
-                                  color: AppColors.colorWhite,
-                                ),
-                              ),
-                            );
-                          }
+                          // if (state is ResultPathsEmptyState) {
+                          //   return ElevatedButton(
+                          //     style: ElevatedButton.styleFrom(
+                          //       padding: const EdgeInsets.symmetric(
+                          //         horizontal: 42,
+                          //         vertical: 22,
+                          //       ),
+                          //       backgroundColor: AppColors.colorPrimary,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //       ),
+                          //     ),
+                          //     onPressed: null,
+                          //     child: const Text(
+                          //       'Request Download',
+                          //       style: TextStyle(
+                          //         color: AppColors.colorWhite,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }
+                          // if (state is GettingJobDetailsByIdState) {
+                          //   return ElevatedButton(
+                          //     style: ElevatedButton.styleFrom(
+                          //       padding: const EdgeInsets.symmetric(
+                          //         horizontal: 42,
+                          //         vertical: 22,
+                          //       ),
+                          //       backgroundColor: AppColors.colorPrimary,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //       ),
+                          //     ),
+                          //     onPressed: null,
+                          //     child: const Text(
+                          //       'Request Download',
+                          //       style: TextStyle(
+                          //         color: AppColors.colorWhite,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
@@ -304,13 +302,93 @@ class _ViewFileState extends State<ViewFile> {
                             ),
                             onPressed: () {
                               BlocProvider.of<GetJobDetailsCubit>(context)
-                                  .getJobDetailsById(
-                                widget.reconciliationReferenceId.toString(),
+                                  .requestDownload(
+                                reconciliationReferenceId:
+                                    widget.reconciliationReferenceId,
+                                context: context,
                               );
-                              SnackBars.sucessMessageSnackbar(
-                                context,
-                                '✅ Download requested successfully!',
-                              );
+                              // BlocProvider.of<GetJobDetailsCubit>(context)
+                              //     .getJobDetailsById(
+                              //   widget.reconciliationReferenceId.toString(),
+                              // );
+                              // SnackBars.sucessMessageSnackbar(
+                              //   context,
+                              //   '✅ Download requested successfully!',
+                              // );
+                              if (mounted) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      contentPadding: const EdgeInsets.all(50),
+                                      content: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                'Download has been requested!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              const Text(
+                                                'You can find your downloads in the "Downloads" section\nonce the files are ready to download.',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Center(
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 32,
+                                                      vertical: 22,
+                                                    ),
+                                                    backgroundColor:
+                                                        AppColors.colorPrimary,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppColors.colorWhite,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
                             },
                             child: const Text(
                               'Request Download',

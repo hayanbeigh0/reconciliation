@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:excel/excel.dart' as ex;
 import 'package:reconciliation/business_logic/add_job/add_job_cubit.dart';
 import 'package:reconciliation/business_logic/upload_file_1/upload_file_1_cubit.dart';
 import 'package:reconciliation/business_logic/upload_file_2/upload_file2_cubit.dart';
@@ -542,39 +541,20 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                               setState(() {});
                                               if (excelSheet1 != null) {
                                                 excelSheet1Columns = [];
-                                                // final fileBytes = excelSheet1!
-                                                //     .files.single.bytes!;
-                                                // final excel =
-                                                //     ex.Excel.decodeBytes(
-                                                //         fileBytes);
-                                                // final table = excel.tables[
-                                                //     excel.tables.keys.first];
-
-                                                // final List<ex.Data?> columns =
-                                                //     table!.rows.first
-                                                //         .toSet()
-                                                //         .toList();
-                                                // setState(() {
-                                                //   excelSheet1Columns = columns
-                                                //       .where(
-                                                //         (element) =>
-                                                //             element != null,
-                                                //       )
-                                                //       .toSet()
-                                                //       .toList();
-                                                // });
-                                                BlocProvider.of<
-                                                            UploadFile1Cubit>(
-                                                        context)
-                                                    .uploadFile1(
-                                                  fileBytes: excelSheet1!
-                                                      .files.first.bytes!,
-                                                  fileName: excelSheet1!
-                                                      .files.first.name,
-                                                );
-                                                BlocProvider.of<AddJobCubit>(
-                                                        context)
-                                                    .addedFileState();
+                                                if (mounted) {
+                                                  BlocProvider.of<
+                                                              UploadFile1Cubit>(
+                                                          context)
+                                                      .uploadFile1(
+                                                    fileBytes: excelSheet1!
+                                                        .files.first.bytes!,
+                                                    fileName: excelSheet1!
+                                                        .files.first.name,
+                                                  );
+                                                  BlocProvider.of<AddJobCubit>(
+                                                          context)
+                                                      .addedFileState();
+                                                }
                                               } else {}
                                             } catch (e) {
                                               setState(() {
@@ -1305,36 +1285,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                               setState(() {});
                                               if (excelSheet2 != null) {
                                                 excelSheet2Columns = [];
-                                                // final fileBytes = excelSheet2!
-                                                //     .files.single.bytes!;
-                                                // final excel =
-                                                //     ex.Excel.decodeBytes(
-                                                //         fileBytes);
-                                                // final table = excel.tables[
-                                                //     excel.tables.keys.first];
-
-                                                // final List<ex.Data?> columns =
-                                                //     table!.rows.first
-                                                //         .toSet()
-                                                //         .toList();
-                                                // setState(() {
-                                                //   excelSheet2Columns = columns
-                                                //       .where(
-                                                //         (element) =>
-                                                //             element != null,
-                                                //       )
-                                                //       .toSet()
-                                                //       .toList();
-                                                // });
-                                                BlocProvider.of<
-                                                            UploadFile2Cubit>(
-                                                        context)
-                                                    .uploadFile2(
-                                                  fileBytes: excelSheet2!
-                                                      .files.first.bytes!,
-                                                  fileName: excelSheet2!
-                                                      .files.first.name,
-                                                );
+                                                if (mounted) {
+                                                  BlocProvider.of<
+                                                              UploadFile2Cubit>(
+                                                          context)
+                                                      .uploadFile2(
+                                                    fileBytes: excelSheet2!
+                                                        .files.first.bytes!,
+                                                    fileName: excelSheet2!
+                                                        .files.first.name,
+                                                  );
+                                                }
                                               } else {}
                                             } catch (e) {
                                               setState(() {

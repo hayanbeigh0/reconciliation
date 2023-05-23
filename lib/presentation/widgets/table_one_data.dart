@@ -134,6 +134,8 @@ class _TableDataState extends State<TableData> {
                         //       children: [
                         ListView.builder(
                       // physics: const NeverScrollableScrollPhysics(),
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
                       primary: false,
                       shrinkWrap: true,
                       controller: scrollController,
@@ -308,32 +310,34 @@ class _TableDataState extends State<TableData> {
                                                       firstDate: DateTime(2000),
                                                       lastDate: DateTime.now(),
                                                     );
-                                                    BlocProvider.of<
-                                                                UpdateRowDataCubit>(
-                                                            context)
-                                                        .updateRowData(
-                                                      recordId: state
-                                                          .tableRowData[i]
-                                                          .recordId
-                                                          .toString(),
-                                                      reconciliationReferenceId:
-                                                          widget
-                                                              .reconciliationReferenceId
-                                                              .toString(),
-                                                      sheetNumber: '1',
-                                                      userId: AuthBasedRouting
-                                                          .afterLogin
-                                                          .userDetails!
-                                                          .userId!,
-                                                      updates: [
-                                                        {
-                                                          "Date": DateFormatter
-                                                              .formatDateReverse(
-                                                                  dateTime
-                                                                      .toString())
-                                                        }
-                                                      ],
-                                                    );
+                                                    if (mounted) {
+                                                      BlocProvider.of<
+                                                                  UpdateRowDataCubit>(
+                                                              context)
+                                                          .updateRowData(
+                                                        recordId: state
+                                                            .tableRowData[i]
+                                                            .recordId
+                                                            .toString(),
+                                                        reconciliationReferenceId:
+                                                            widget
+                                                                .reconciliationReferenceId
+                                                                .toString(),
+                                                        sheetNumber: '1',
+                                                        userId: AuthBasedRouting
+                                                            .afterLogin
+                                                            .userDetails!
+                                                            .userId!,
+                                                        updates: [
+                                                          {
+                                                            "Date": DateFormatter
+                                                                .formatDateReverse(
+                                                                    dateTime
+                                                                        .toString())
+                                                          }
+                                                        ],
+                                                      );
+                                                    }
                                                   },
                                         child: Text(
                                           DateFormatter.formatDate(

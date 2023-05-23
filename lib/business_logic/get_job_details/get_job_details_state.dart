@@ -37,3 +37,13 @@ class ResultPathsNotEmptyState extends GetJobDetailsState {
   @override
   List<Object?> get props => [];
 }
+
+class DownloadRequestFailedState extends GetJobDetailsState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GettingResultFilesUrlFailedState extends GetJobDetailsState {
+  @override
+  List<Object?> get props => [];
+}

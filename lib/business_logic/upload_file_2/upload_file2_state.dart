@@ -15,6 +15,7 @@ class UploadFile2Started extends UploadFile2State {
   List<Object> get props => [];
 }
 
+// ignore: must_be_immutable
 class UploadFile2Done extends UploadFile2State {
   List<String> file2Columns;
   UploadFile2Done({

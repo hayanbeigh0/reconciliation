@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -23,7 +22,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try {
       final response = await authenticationRepository.signIn(phoneNumber);
       final responseBody = response.data;
-      print(jsonEncode(responseBody.toString()));
       if (response.statusCode == 200) {
         if (responseBody['CUSTOM_CHALLENGE'] != null &&
             responseBody['session'] != null) {
@@ -104,7 +102,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   verifyOtp(Map<String, dynamic> userDetails, String otp) async {
-    print('Verify Otp Cubit UserDetails: ${userDetails.toString()}');
+    // print('Verify Otp Cubit UserDetails: ${userDetails.toString()}');
     emit(AuthenticationLoadingState());
     try {
       final Response response =
@@ -210,7 +208,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         );
         return;
       }
-      print('33:${e.response.toString()}');
+      // print('33:${e.response.toString()}');
       emit(
         const AuthenticationOtpErrorState(
           error: ' Unknown error occurred!',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 
+// ignore: must_be_immutable
 class PrimaryDropdown extends StatefulWidget {
   PrimaryDropdown({
     super.key,

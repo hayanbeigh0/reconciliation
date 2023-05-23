@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reconciliation/business_logic/add_job/add_job_cubit.dart';
 
 import 'package:reconciliation/business_logic/auth/authentication_cubit.dart';
+import 'package:reconciliation/business_logic/delete_downloadable_files/delete_downloadable_files_cubit.dart';
+import 'package:reconciliation/business_logic/file_download/file_download_cubit.dart';
 import 'package:reconciliation/business_logic/get_complete_row/get_complete_row_cubit.dart';
+import 'package:reconciliation/business_logic/get_downloadable_files/get_downloadable_files_cubit.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
 import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
@@ -108,6 +111,21 @@ class MyApp extends StatelessWidget {
         BlocProvider<GetJobDetailsCubit>(
           create: (context) {
             return GetJobDetailsCubit();
+          },
+        ),
+        BlocProvider<DownloadableFilesCubit>(
+          create: (context) {
+            return DownloadableFilesCubit();
+          },
+        ),
+        BlocProvider<FileDownloadCubit>(
+          create: (context) {
+            return FileDownloadCubit();
+          },
+        ),
+        BlocProvider<DeleteDownloadableFilesCubit>(
+          create: (context) {
+            return DeleteDownloadableFilesCubit();
           },
         ),
       ],

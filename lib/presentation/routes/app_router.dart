@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reconciliation/presentation/screens/home/add_task_page.dart';
 import 'package:reconciliation/presentation/screens/home/add_task_screen.dart';
+import 'package:reconciliation/presentation/screens/home/downloads_screen.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/screens/login/login_screen.dart';
 
@@ -42,6 +43,10 @@ class AppRouter {
             referenceName: args['referenceName'],
             status: args['status'],
           ),
+        );
+      case '/downloads':
+        return MaterialPageRoute(
+          builder: (context) => const Downloads(),
         );
       default:
         return null;

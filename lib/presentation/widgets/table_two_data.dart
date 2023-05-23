@@ -9,14 +9,13 @@ import 'package:reconciliation/business_logic/update_row_data/update_row_data_cu
 import 'package:reconciliation/data/models/table_row_data.dart';
 import 'package:reconciliation/main.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
-import 'package:collection/collection.dart';
 import 'package:reconciliation/presentation/utils/functions/date_formatter.dart';
 import 'package:reconciliation/presentation/utils/functions/snackbars.dart';
 import 'package:reconciliation/presentation/widgets/all_columns_dialog.dart';
 import 'package:reconciliation/presentation/widgets/row_dropdown.dart';
 
 class TableTwoData extends StatefulWidget {
-  TableTwoData({
+  const TableTwoData({
     Key? key,
     required this.reconciliationReferenceId,
     required this.reference,
@@ -266,44 +265,48 @@ class _TableTwoDataState extends State<TableTwoData> {
                                           widget.reconciliationReferenceId,
                                     ),
                                     child: GestureDetector(
-                                      onDoubleTap: state
-                                                  .tableRowData[i].confirmed ==
-                                              1
-                                          ? null
-                                          : () async {
-                                              DateTime? dateTime =
-                                                  await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.parse(
-                                                    state
-                                                        .tableRowData[i].date!),
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime.now(),
-                                              );
-                                              BlocProvider.of<
-                                                          UpdateRowDataCubit>(
-                                                      context)
-                                                  .updateRowData(
-                                                recordId: state
-                                                    .tableRowData[i].recordId
-                                                    .toString(),
-                                                reconciliationReferenceId: widget
-                                                    .reconciliationReferenceId
-                                                    .toString(),
-                                                sheetNumber: '1',
-                                                userId: AuthBasedRouting
-                                                    .afterLogin
-                                                    .userDetails!
-                                                    .userId!,
-                                                updates: [
-                                                  {
-                                                    "Date": DateFormatter
-                                                        .formatDateReverse(
-                                                            dateTime.toString())
+                                      onDoubleTap:
+                                          state.tableRowData[i].confirmed == 1
+                                              ? null
+                                              : () async {
+                                                  DateTime? dateTime =
+                                                      await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.parse(
+                                                        state.tableRowData[i]
+                                                            .date!),
+                                                    firstDate: DateTime(2000),
+                                                    lastDate: DateTime.now(),
+                                                  );
+                                                  if (mounted) {
+                                                    BlocProvider.of<
+                                                                UpdateRowDataCubit>(
+                                                            context)
+                                                        .updateRowData(
+                                                      recordId: state
+                                                          .tableRowData[i]
+                                                          .recordId
+                                                          .toString(),
+                                                      reconciliationReferenceId:
+                                                          widget
+                                                              .reconciliationReferenceId
+                                                              .toString(),
+                                                      sheetNumber: '1',
+                                                      userId: AuthBasedRouting
+                                                          .afterLogin
+                                                          .userDetails!
+                                                          .userId!,
+                                                      updates: [
+                                                        {
+                                                          "Date": DateFormatter
+                                                              .formatDateReverse(
+                                                                  dateTime
+                                                                      .toString())
+                                                        }
+                                                      ],
+                                                    );
                                                   }
-                                                ],
-                                              );
-                                            },
+                                                },
                                       child: Text(
                                         DateFormatter.formatDate(
                                           state.tableRowData[i].date.toString(),

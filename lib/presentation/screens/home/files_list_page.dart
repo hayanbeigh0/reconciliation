@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reconciliation/business_logic/get_job/get_job_cubit.dart';
+import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/sheet_one_data_enquiry/data_enquiry_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/view_file_screen.dart';
 import 'package:reconciliation/presentation/utils/colors/app_colors.dart';
@@ -145,34 +146,114 @@ class FilesListItem extends StatelessWidget {
             ),
             // VerticalDivider(),
             Expanded(
-              child: InkWell(
-                onTap: status != "COMPLETE"
-                    ? null
-                    : () {
-                        BlocProvider.of<GetJobCubit>(context)
-                            .downloadFile(referenceId: referenceId);
-                      },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  color: sheet1ResultPath == null || sheet2ResultPath == null
-                      ? Colors.grey
-                      : AppColors.colorPrimary,
-                  child: Text(
-                    status == 'ERROR'
-                        ? 'Error'
-                        : status != "COMPLETE"
-                            ? 'Processing'
-                            : 'Download',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      // backgroundColor: status != "COMPLETE"
-                      //     ? Colors.grey
-                      //     :
-                      // AppColors.colorPrimary,
-                      color: AppColors.colorWhite,
+              child: BlocBuilder<GetJobDetailsCubit, GetJobDetailsState>(
+                builder: (context, state) {
+                  return InkWell(
+                    onTap: status != "COMPLETE" &&
+                            sheet1ResultPath != null &&
+                            sheet2ResultPath != null
+                        ? null
+                        : () {
+                            // BlocProvider.of<GetJobCubit>(context)
+                            //     .downloadFile(referenceId: referenceId);
+                            BlocProvider.of<GetJobDetailsCubit>(context)
+                                .requestDownload(
+                              reconciliationReferenceId: int.parse(referenceId),
+                              context: context,
+                            );
+                            // BlocProvider.of<GetJobDetailsCubit>(context)
+                            //     .getJobDetailsById(
+                            //   widget.reconciliationReferenceId.toString(),
+                            // );
+
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  contentPadding: const EdgeInsets.all(50),
+                                  content: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                            'Download has been requested!',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          const Text(
+                                            'You can find your downloads in the "Downloads" section\nonce the files are ready to download.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Center(
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 32,
+                                                  vertical: 22,
+                                                ),
+                                                backgroundColor:
+                                                    AppColors.colorPrimary,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                  color: AppColors.colorWhite,
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      color:
+                          sheet1ResultPath == null || sheet2ResultPath == null
+                              ? Colors.grey
+                              : AppColors.colorPrimary,
+                      child: Text(
+                        status == 'ERROR'
+                            ? 'Error'
+                            : status != "COMPLETE"
+                                ? 'Processing'
+                                : 'Request Download',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: AppColors.colorWhite,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ],
@@ -182,6 +263,7 @@ class FilesListItem extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class PagesList extends StatelessWidget {
   PagesList({super.key});
   DateTime? fromDate;
@@ -502,28 +584,32 @@ class PagesList extends StatelessWidget {
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          BlocProvider.of<GetJobCubit>(context).getJobList();
-                        },
-                        icon: BlocBuilder<GetJobCubit, GetJobState>(
-                          builder: (context, state) {
-                            if (state is GettingJobListState) {
-                              return const Center(
-                                child: SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.colorPrimary,
-                                  ),
-                                ),
-                              );
-                            }
-                            return const Icon(
-                              Icons.refresh,
-                              color: AppColors.colorPrimary,
-                            );
-                          },
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            onPressed: () {
+                              BlocProvider.of<GetJobCubit>(context)
+                                  .getJobList();
+                            },
+                            icon: BlocBuilder<GetJobCubit, GetJobState>(
+                              builder: (context, state) {
+                                if (state is GettingJobListState) {
+                                  return const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  );
+                                }
+                                return const Icon(
+                                  Icons.refresh,
+                                  color: AppColors.colorPrimary,
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ],

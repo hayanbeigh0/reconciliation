@@ -5,6 +5,7 @@ import 'package:reconciliation/business_logic/update_row_data/update_row_data_cu
 import 'package:reconciliation/main.dart';
 import 'package:reconciliation/presentation/utils/styles/app_styles.dart';
 
+// ignore: must_be_immutable
 class RowDropdown extends StatefulWidget {
   RowDropdown({
     required this.confirmationDropdownValue,

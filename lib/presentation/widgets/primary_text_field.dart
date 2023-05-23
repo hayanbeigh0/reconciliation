@@ -85,7 +85,7 @@ class PrimaryTextField extends StatelessWidget {
                     height: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(43, 0, 0, 0),
+                      color: const Color.fromARGB(43, 0, 0, 0),
                     ),
                   )
                 : const SizedBox(),

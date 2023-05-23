@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -25,6 +26,36 @@ class GetJobRepository {
     final response = await Dio().get(
       '$API_URL/job/jobDetailsById/$reconciliationReferenceId',
     );
+    return response;
+  }
+
+  Future<Response> requestDownload(
+      {required int reconciliationReferenceId}) async {
+    final response = await Dio().post(
+      '$API_URL/enquiry/requestDownload',
+      data: jsonEncode(
+        {
+          "ReconciliationReferenceId": reconciliationReferenceId,
+        },
+      ),
+    );
+    return response;
+  }
+
+  Future<Response> getResultFilesURL({
+    required int reconciliationReferenceId,
+    required int downloadId,
+  }) async {
+    final Response response = await Dio().post(
+      '$API_URL/enquiry/getResultFilesURL',
+      data: jsonEncode(
+        {
+          "ReconciliationReferenceId": reconciliationReferenceId,
+          "DownloadId": downloadId
+        },
+      ),
+    );
+    log('Result file url\'s from the repository: ${response.data}');
     return response;
   }
 }

@@ -20,6 +20,7 @@ class File1Removed extends UploadFile1State {
   List<Object?> get props => [];
 }
 
+// ignore: must_be_immutable
 class UploadFile1Done extends UploadFile1State {
   List<String> file1Columns;
   UploadFile1Done({
