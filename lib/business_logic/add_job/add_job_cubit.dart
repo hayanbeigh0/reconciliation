@@ -79,6 +79,7 @@ class AddJobCubit extends Cubit<AddJobState> {
       emit(CheckingReferenceAvailabilityState());
       final response =
           await addJobRepository.checkReferenceAvailability(referenceName);
+      log(response.data.toString());
       if (!response.data['referenceExist']) {
         emit(CheckingReferenceAvailabilitySuccessState());
       } else {
@@ -86,6 +87,9 @@ class AddJobCubit extends Cubit<AddJobState> {
       }
     } on DioError catch (e) {
       log(e.response!.data.toString());
+      emit(CheckingReferenceAvailabilityFailedState());
+    } catch (e) {
+      log(e.toString());
       emit(CheckingReferenceAvailabilityFailedState());
     }
   }
