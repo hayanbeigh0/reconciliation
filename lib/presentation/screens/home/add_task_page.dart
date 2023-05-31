@@ -57,6 +57,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
   String? confirmation2DropdownValue;
 
   List<String> excelSheet2Columns = [];
+  List<String> sheet1ValidationColumns = [];
+  List<String> sheet2ValidationColumns = [];
   FilePickerResult? excelSheet1;
   FilePickerResult? excelSheet2;
   bool showDate2DropdownError = false;
@@ -307,6 +309,45 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           }
                                           if (_formKey.currentState!
                                               .validate()) {
+                                            sheet1ValidationColumns = [
+                                              reference1DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              date1DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              amount1DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              reference2_1DropdownValue
+                                                  .toString(),
+                                              // description1DropdownValue!.value
+                                              //     .toString(),
+                                            ];
+                                            if (reference2_1DropdownValue !=
+                                                null) {
+                                              sheet1ValidationColumns.add(
+                                                  reference2_1DropdownValue!);
+                                            }
+                                            sheet2ValidationColumns = [
+                                              reference2DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              date2DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              amount2DropdownValue!
+                                                  // .value
+                                                  .toString(),
+                                              // description1DropdownValue!.value
+                                              //     .toString(),
+                                            ];
+
+                                            if (reference2_2DropdownValue !=
+                                                null) {
+                                              sheet2ValidationColumns.add(
+                                                  reference2_2DropdownValue!);
+                                            }
                                             BlocProvider.of<AddJobCubit>(
                                                     context)
                                                 .uploadFile(
@@ -377,19 +418,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                                   .files.first.bytes!,
                                               file1Name:
                                                   excelSheet1!.files.first.name,
-                                              columns1: [
-                                                reference1DropdownValue!
-                                                    // .value
-                                                    .toString(),
-                                                date1DropdownValue!
-                                                    // .value
-                                                    .toString(),
-                                                amount1DropdownValue!
-                                                    // .value
-                                                    .toString(),
-                                                // description1DropdownValue!.value
-                                                //     .toString(),
-                                              ],
+                                              columns1: sheet1ValidationColumns,
                                               file2Bytes: excelSheet2!
                                                   .files.first.bytes!,
                                               file2Name:
