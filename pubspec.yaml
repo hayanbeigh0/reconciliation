@@ -55,6 +55,7 @@ dependencies:
   flutter_isolate: ^2.0.4
   isolated_worker: ^0.1.1
   isolate_manager: ^2.2.0+5
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:

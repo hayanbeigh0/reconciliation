@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:reconciliation/business_logic/auth/authentication_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
 import 'package:reconciliation/presentation/screens/home/add_task_screen.dart';
@@ -24,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController otpController = TextEditingController();
   final TextEditingController otpController1 = TextEditingController();
 
   final TextEditingController otpController2 = TextEditingController();
@@ -45,11 +48,396 @@ class _LoginScreenState extends State<LoginScreen> {
   bool mobileNumberFieldEnabled = true;
 
   bool otpFieldsEnabled = false;
+  bool mobileNumberEmpty = false;
+  bool mobileNumberIsLessDigits = false;
+  bool invalidOTP = false;
   final PageController pageController = PageController();
   int currentPageIndex = 0;
+  bool isResendOtpVisible = false;
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocListener<AuthenticationCubit, AuthenticationState>(
+        listener: (context, state) {
+          if (state is OTPSentSuccessfully) {
+            setState(() {
+              pageController.animateToPage(
+                1,
+                duration: const Duration(
+                  milliseconds: 100,
+                ),
+                curve: Curves.easeInOut,
+              );
+            });
+            SnackBars.sucessMessageSnackbar(
+                context, '✅ Otp sent to ${state.phoneNumber}');
+            setState(() {
+              mobileNumberFieldEnabled = false;
+              otpFieldsEnabled = true;
+            });
+          }
+          if (state is AuthenticationLoginErrorState) {
+            SnackBars.errorMessageSnackbar(context, state.error);
+          }
+          if (state is AuthenticationOtpErrorState) {
+            SnackBars.errorMessageSnackbar(context, state.error);
+            otpController1.clear();
+            otpController2.clear();
+            otpController3.clear();
+            otpController4.clear();
+            focusNode1.requestFocus();
+          }
+
+          if (state is AuthenticationSuccessState) {
+            BlocProvider.of<LocalStorageCubit>(context)
+                .storeUserData(state.afterLogin);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              AddTaskScreen.routeName,
+              (route) => false,
+            );
+          }
+          if (state is AuthenticationLoginErrorState) {
+            SnackBars.errorMessageSnackbar(context, state.error);
+          }
+        },
+        child: Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 90, vertical: 50),
+                color: const Color(0xFF253358),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/svg/reconlogo.svg'),
+                    const Expanded(child: SizedBox()),
+                    Text(
+                      'Effortlessly compare Excel sheets and unveil insights like never before',
+                      style: GoogleFonts.inder(
+                        color: Colors.white,
+                        fontSize: 35,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Expanded(child: SizedBox()),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 7,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Welcome back',
+                      style: GoogleFonts.lexendDeca(
+                        color: const Color(0xFF313131),
+                        fontSize: 40,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Continue to your profile',
+                      style: GoogleFonts.lexendDeca(
+                        color: const Color(0xFF616161),
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(flex: 3, child: SizedBox()),
+                        Expanded(
+                          flex: 4,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Mobile number',
+                                  style: GoogleFonts.lexendDeca(
+                                    color: const Color(0xFF616161),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                TextFormField(
+                                  controller: _mobileNumberController,
+                                  enabled: !isResendOtpVisible,
+                                  // onFieldSubmitted: (value) =>
+                                  //     _formKey.currentState!.validate(),
+                                  // validator: (value) =>
+                                  //     validateMobileNumber(value!),
+                                  style: GoogleFonts.lexendDeca(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      mobileNumberIsLessDigits = false;
+                                      mobileNumberEmpty = false;
+                                    });
+                                    // if (value.length == 10) {
+                                    //   _formKey.currentState!.validate();
+                                    // }
+                                  },
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(10)
+                                  ],
+                                  decoration: InputDecoration(
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFB6B6B6),
+                                      ),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFF497EF7),
+                                      ),
+                                    ),
+                                    disabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            Color.fromARGB(255, 230, 230, 230),
+                                      ),
+                                    ),
+                                    errorBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            Color.fromARGB(255, 230, 230, 230),
+                                      ),
+                                    ),
+                                    hoverColor: AppColors.colorWhite,
+                                    filled: true,
+                                    fillColor: !isResendOtpVisible
+                                        ? AppColors.colorWhite
+                                        : const Color.fromARGB(
+                                            255, 230, 230, 230),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 10,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    hintText: 'Ex: 705 174 460',
+                                    hintMaxLines: 1,
+                                    errorStyle: AppStyles.errorTextStyle,
+                                    hintStyle:
+                                        AppStyles.primaryTextFieldHintStyle,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Visibility(
+                                  visible: mobileNumberEmpty ||
+                                      mobileNumberIsLessDigits,
+                                  replacement: const SizedBox(height: 25),
+                                  child: SizedBox(
+                                    height: 25,
+                                    child: Text(
+                                      mobileNumberIsLessDigits
+                                          ? 'Mobile number must be 10 digits long.'
+                                          : 'Mobile number is required',
+                                      style: GoogleFonts.lexendDeca(
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                AnimatedContainer(
+                                  duration: const Duration(
+                                    milliseconds: 200,
+                                  ),
+                                  height: isResendOtpVisible ? 110 : 0,
+                                  child: SingleChildScrollView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Enter OTP',
+                                          style: GoogleFonts.lexendDeca(
+                                            color: const Color(0xFF616161),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        TextFormField(
+                                          controller: otpController,
+                                          onFieldSubmitted: (value) {},
+                                          onChanged: (value) {
+                                            setState(() {
+                                              invalidOTP = false;
+                                            });
+                                          },
+                                          style: GoogleFonts.lexendDeca(),
+                                          decoration: InputDecoration(
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFB6B6B6),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFF497EF7),
+                                              ),
+                                            ),
+                                            hoverColor: AppColors.colorWhite,
+                                            filled: true,
+                                            fillColor: AppColors.colorWhite,
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 10,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            hintText: '',
+                                            hintMaxLines: 1,
+                                            errorStyle:
+                                                AppStyles.errorTextStyle,
+                                            hintStyle: AppStyles
+                                                .primaryTextFieldHintStyle,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Visibility(
+                                          visible: invalidOTP,
+                                          replacement:
+                                              const SizedBox(height: 25),
+                                          child: SizedBox(
+                                            height: 25,
+                                            child: Text(
+                                              'Enter a valid otp',
+                                              style: GoogleFonts.lexendDeca(
+                                                fontSize: 12,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      backgroundColor: const Color(0xFF497EF7),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (_mobileNumberController
+                                          .text.isEmpty) {
+                                        setState(() {
+                                          mobileNumberEmpty = true;
+                                        });
+                                      } else if (_mobileNumberController
+                                              .text.length <
+                                          10) {
+                                        setState(() {
+                                          mobileNumberIsLessDigits = true;
+                                        });
+                                      } else if (isResendOtpVisible) {
+                                        if (otpController.text.length < 4) {
+                                          setState(() {
+                                            invalidOTP = true;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          isResendOtpVisible =
+                                              !isResendOtpVisible;
+                                        });
+                                      }
+
+                                      // if (_formKey.currentState!.validate()) {
+                                      // }
+                                    },
+                                    child: Text(
+                                      isResendOtpVisible ? 'Login' : 'Send OTP',
+                                      style: GoogleFonts.lexendDeca(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  width: double.infinity,
+                                  child: Visibility(
+                                    visible: isResendOtpVisible,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        child: Text(
+                                          'Resend OTP',
+                                          style: GoogleFonts.lexendDeca(
+                                            color: const Color(0xFF497EF7),
+                                          ),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Expanded(flex: 3, child: SizedBox()),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    // return loginScreen();
+  }
+
+  Scaffold loginScreen() {
     return Scaffold(
       body: Stack(
         children: [
