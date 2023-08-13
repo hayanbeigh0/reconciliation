@@ -101,6 +101,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
+  clearMobileNumber() {
+    emit(AuthenticationInitial());
+  }
+
   verifyOtp(Map<String, dynamic> userDetails, String otp) async {
     // print('Verify Otp Cubit UserDetails: ${userDetails.toString()}');
     emit(AuthenticationLoadingState());
@@ -168,7 +172,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         );
       }
       // log(error: e.toString(), '3');
-      if (e.response!.data['message'] == 'Unrecognizable lambda output') {
+      if (e.response != null &&
+          e.response!.data['message'] == 'Unrecognizable lambda output') {
         emit(
           const AuthenticationOtpErrorState(
             error:
