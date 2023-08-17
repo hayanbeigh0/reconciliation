@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 20,
                     ),
                     Text(
-                      'Continue to your profile',
+                      'Continue to the dashboard',
                       style: GoogleFonts.lexendDeca(
                         color: const Color(0xFF616161),
                         fontSize: 20,
