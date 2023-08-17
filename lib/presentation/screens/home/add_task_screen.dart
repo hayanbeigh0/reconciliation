@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:reconciliation/business_logic/get_job_details/get_job_details_cubit.dart';
 import 'package:reconciliation/business_logic/local_storage/local_storage_cubit.dart';
 import 'package:reconciliation/main.dart';
@@ -37,115 +39,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           }
         },
         child: BlocListener<GetJobDetailsCubit, GetJobDetailsState>(
-          listener: (context, state) async {
-            // if (state is ResultPathsEmptyState) {
-            //   log('Getting job details listener!');
-            //   await BlocProvider.of<GetJobDetailsCubit>(context)
-            //       .getJobDetailsById(
-            //     state.reconciliationReferenceId.toString(),
-            //   );
-            // }
-            // if (state is ResultPathsNotEmptyState) {
-            // if (mounted) {
-            //   showDialog(
-            //     context: context,
-            //     builder: (context) {
-            //       return AlertDialog(
-            //         contentPadding: const EdgeInsets.all(50),
-            //         content: Column(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             // Align(
-            //             //   alignment: Alignment.topRight,
-            //             //   child: IconButton(
-            //             //     onPressed: () {
-            //             //       Navigator.of(context).pop();
-            //             //     },
-            //             //     icon: const Icon(Icons.close),
-            //             //   ),
-            //             // ),
-            //             Column(
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               mainAxisSize: MainAxisSize.min,
-            //               children: [
-            //                 const Text(
-            //                   'Files are now ready for download!',
-            //                   style: TextStyle(fontSize: 20),
-            //                 ),
-            //                 const SizedBox(
-            //                   height: 20,
-            //                 ),
-            //                 Row(
-            //                   mainAxisAlignment: MainAxisAlignment.center,
-            //                   children: [
-            //                     OutlinedButton(
-            //                       style: OutlinedButton.styleFrom(
-            //                         padding: const EdgeInsets.symmetric(
-            //                           horizontal: 42,
-            //                           vertical: 22,
-            //                         ),
-            //                         backgroundColor: Colors.transparent,
-            //                         side: const BorderSide(
-            //                           color: AppColors.colorPrimary,
-            //                         ),
-            //                         shape: RoundedRectangleBorder(
-            //                           borderRadius: BorderRadius.circular(10),
-            //                         ),
-            //                       ),
-            //                       onPressed: () {
-            //                         Navigator.of(context).pop();
-            //                       },
-            //                       child: const Text(
-            //                         'Cancel',
-            //                         style: TextStyle(
-            //                           color: AppColors.colorPrimary,
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     const SizedBox(
-            //                       width: 20,
-            //                     ),
-            //                     ElevatedButton(
-            //                       style: ElevatedButton.styleFrom(
-            //                         padding: const EdgeInsets.symmetric(
-            //                           horizontal: 32,
-            //                           vertical: 22,
-            //                         ),
-            //                         backgroundColor: AppColors.colorPrimary,
-            //                         shape: RoundedRectangleBorder(
-            //                           borderRadius: BorderRadius.circular(10),
-            //                         ),
-            //                       ),
-            //                       onPressed: () {
-            //                         BlocProvider.of<GetJobDetailsCubit>(
-            //                                 context)
-            //                             .getResultFilesUrl(
-            //                           reconciliationReferenceId: int.parse(
-            //                             state.reconciliationReferenceId,
-            //                           ),
-            //                         );
-            //                         Navigator.of(context).pop();
-            //                       },
-            //                       child: const Text(
-            //                         'Download',
-            //                         style: TextStyle(
-            //                           color: AppColors.colorWhite,
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     },
-            //   );
-            // }
-            // }
-          },
+          listener: (context, state) async {},
           child: LayoutBuilder(builder: (context, constraints) {
             return Column(
               children: [
@@ -202,13 +96,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            const Text(
-              'Reconciliation',
-              style: TextStyle(
-                color: AppColors.colorWhite,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
+            // Text(
+            //   'Reconciliation',
+            //   style: GoogleFonts.lexendDeca(
+            //     color: AppColors.colorWhite,
+            //     fontSize: 24,
+            //     fontWeight: FontWeight.w700,
+            //   ),
+            // ),
+            SvgPicture.asset(
+              'assets/svg/reconlogo.svg',
+              height: 30,
             ),
             SizedBox(
               width: constraints.maxWidth * 0.1,
@@ -234,9 +132,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
+                    Text(
                       'Upload File',
-                      style: TextStyle(
+                      style: GoogleFonts.lexendDeca(
                         color: AppColors.colorWhite,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -287,9 +185,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
+                    Text(
                       'Files List',
-                      style: TextStyle(
+                      style: GoogleFonts.lexendDeca(
                         color: AppColors.colorWhite,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -340,9 +238,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
+                    Text(
                       'Downloads',
-                      style: TextStyle(
+                      style: GoogleFonts.lexendDeca(
                         color: AppColors.colorWhite,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -386,7 +284,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   Text(
                     AuthBasedRouting.afterLogin.userDetails!.userName
                         .toString(),
-                    style: const TextStyle(
+                    style: GoogleFonts.lexendDeca(
                       color: AppColors.colorWhite,
                       fontSize: 20,
                       fontWeight: FontWeight.w400,

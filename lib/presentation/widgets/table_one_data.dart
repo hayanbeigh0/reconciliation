@@ -120,7 +120,7 @@ class _TableDataState extends State<TableData> {
               constraints: const BoxConstraints(maxHeight: 400),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: AppColors.colorPrimary,
+                  color: AppColors.colorPrimaryBorderLight,
                 ),
               ),
               child: Column(
@@ -149,7 +149,8 @@ class _TableDataState extends State<TableData> {
                               border: Border(
                                 bottom: i < state.tableRowData.length - 1
                                     ? const BorderSide(
-                                        color: AppColors.colorPrimary,
+                                        color:
+                                            AppColors.colorPrimaryBorderLight,
                                       )
                                     : BorderSide.none,
                               ),
@@ -180,23 +181,23 @@ class _TableDataState extends State<TableData> {
                                       child: Container(
                                         height: 50,
                                         decoration: BoxDecoration(
-                                          border: i ==
-                                                  state.tableRowData.length - 1
-                                              ? const Border(
-                                                  right: BorderSide(
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                  ))
-                                              : const Border(
-                                                  right: BorderSide(
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                  ),
-                                                ),
+                                          border:
+                                              i == state.tableRowData.length - 1
+                                                  ? const Border(
+                                                      right: BorderSide(
+                                                        color: AppColors
+                                                            .colorPrimaryBorderLight,
+                                                      ),
+                                                      bottom: BorderSide(
+                                                        color: AppColors
+                                                            .colorPrimaryBorderLight,
+                                                      ))
+                                                  : const Border(
+                                                      right: BorderSide(
+                                                        color: AppColors
+                                                            .colorPrimaryBorderLight,
+                                                      ),
+                                                    ),
                                         ),
                                         child: Center(
                                           child: Text(
@@ -217,14 +218,17 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                               bottom: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ))
                                           : const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                             ),
                                     ),
@@ -245,14 +249,17 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                               bottom: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ))
                                           : const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                             ),
                                     ),
@@ -273,14 +280,17 @@ class _TableDataState extends State<TableData> {
                                     border: i == state.tableRowData.length - 1
                                         ? const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                             bottom: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ))
                                         : const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                           ),
                                   ),
@@ -357,14 +367,17 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                               bottom: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ))
                                           : const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                             ),
                                     ),
@@ -385,14 +398,17 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                               bottom: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ))
                                           : const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                             ),
                                     ),
@@ -413,14 +429,17 @@ class _TableDataState extends State<TableData> {
                                     border: i == state.tableRowData.length - 1
                                         ? const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                             bottom: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ))
                                         : const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                           ),
                                   ),
@@ -449,14 +468,17 @@ class _TableDataState extends State<TableData> {
                                     border: i == state.tableRowData.length - 1
                                         ? const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                             bottom: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ))
                                         : const Border(
                                             right: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ),
                                           ),
                                   ),
@@ -486,14 +508,17 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                               bottom: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ))
                                           : const Border(
                                               right: BorderSide(
-                                                color: AppColors.colorPrimary,
+                                                color: AppColors
+                                                    .colorPrimaryBorderLight,
                                               ),
                                             ),
                                     ),
@@ -520,7 +545,8 @@ class _TableDataState extends State<TableData> {
                                       border: i == state.tableRowData.length - 1
                                           ? const Border(
                                               bottom: BorderSide(
-                                              color: AppColors.colorPrimary,
+                                              color: AppColors
+                                                  .colorPrimaryBorderLight,
                                             ))
                                           : const Border(),
                                     ),

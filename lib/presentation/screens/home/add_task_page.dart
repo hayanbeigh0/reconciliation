@@ -202,9 +202,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 30,
-                            ),
                             IntrinsicHeight(
                               child: Row(
                                 mainAxisAlignment:
@@ -240,7 +237,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                              BorderRadius.circular(5),
                                         ),
                                         backgroundColor: AppColors.colorPrimary,
                                       ),
@@ -604,6 +601,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           },
                                           icon: SvgPicture.asset(
                                             'assets/svg/uploadfile.svg',
+                                            color: AppColors.colorPrimary,
                                           ),
                                         ),
                                         const SizedBox(
@@ -670,7 +668,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   SizedBox(
                     width: 500,
@@ -678,57 +676,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Date',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
+                                    const Text(
+                                      'Date*',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     date1Dropdown(),
                                     showDate1DropdownError
@@ -747,64 +711,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   height: 15,
-                        // ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Reference 1',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Reference 1*',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     reference1Dropdown(),
                                     showReference1DropdownError
@@ -826,121 +749,50 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             ],
                           ),
                         ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Reference 2',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Reference 2',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     reference2_1Dropdown(),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   height: 15,
-                        // ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Amount',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Amount*',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     amount1Dropdown(),
                                     showAmount1DropdownError
@@ -966,57 +818,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         //   height: 15,
                         // ),
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Description',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Description',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     description1Dropdown(),
                                     showDescription1DropdownError
@@ -1035,62 +853,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Status',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Status',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     status1Dropdown(),
                                   ],
@@ -1099,118 +878,49 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             ],
                           ),
                         ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Sub Status',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Sub Status',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     subStatus1Dropdown(),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Confirmation',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Confirmation',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     confirmation1Dropdown(),
                                   ],
@@ -1218,9 +928,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
                         ),
                       ],
                     ),
@@ -1377,6 +1084,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           },
                                           icon: SvgPicture.asset(
                                             'assets/svg/uploadfile.svg',
+                                            color: AppColors.colorPrimary,
                                           ),
                                         ),
                                         const SizedBox(
@@ -1443,7 +1151,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   SizedBox(
                     width: 500,
@@ -1451,57 +1159,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Date',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
+                                    const Text(
+                                      'Date*',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     date2Dropdown(),
                                     showDate2DropdownError
@@ -1520,64 +1194,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   height: 15,
-                        // ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Reference 1',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text(
+                                      'Reference 1*',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     reference2Dropdown(),
                                     showReference2DropdownError
@@ -1602,118 +1235,47 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         // const SizedBox(
                         //   height: 15,
                         // ),
+
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Reference 2',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Reference 2',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     reference2_2Dropdown(),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Amount',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      '*',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Amount*',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     amount2Dropdown(),
                                     showAmount2DropdownError
@@ -1739,57 +1301,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         //   height: 15,
                         // ),
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Description',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Description',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     description2Dropdown(),
                                     showDescription2DropdownError
@@ -1808,62 +1336,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Status',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Status',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     status2Dropdown(),
                                   ],
@@ -1872,118 +1361,49 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             ],
                           ),
                         ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
                         SizedBox(
-                          height: 85,
+                          height: 95,
                           child: Row(
                             children: [
                               Expanded(
-                                child: Row(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Sub Status',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
+                                    const Text(
+                                      'Sub Status',
                                       style: TextStyle(
-                                        fontSize: 26,
+                                        fontSize: 14,
                                         height: 1,
-                                        color: requiredMarkColor,
+                                        color: AppColors.colorPrimaryExtraDark,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth * 0.05,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     subStatus2Dropdown(),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        // width: 150,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: AppColors.colorPrimary,
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Confirmation',
-                                          style: TextStyle(
-                                            color:
-                                                AppColors.colorPrimaryExtraDark,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: requiredMarkSpacing,
-                                    ),
-                                    Text(
-                                      ' ',
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        height: 1,
-                                        color: requiredMarkColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: constraints.maxWidth * 0.05,
                               ),
                               Expanded(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const Text(
+                                      'Confirmation',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1,
+                                        color: AppColors.colorPrimaryExtraDark,
+                                      ),
+                                    ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     confirmation2Dropdown(),
                                   ],
@@ -1991,9 +1411,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
                         ),
                       ],
                     ),
@@ -2011,7 +1428,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2063,7 +1480,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2115,7 +1532,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2167,7 +1584,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2219,7 +1636,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2265,7 +1682,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2321,7 +1738,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2377,7 +1794,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2433,7 +1850,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2485,7 +1902,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2537,7 +1954,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2589,7 +2006,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2641,7 +2058,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2687,7 +2104,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2743,7 +2160,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2799,7 +2216,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorPrimaryLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: AppColors.colorPrimary,
         ),
@@ -2886,7 +2303,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           vertical: 5,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 110, 125, 255),
             width: 1,
@@ -2895,7 +2312,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 0, 18, 181),
             width: 1,
@@ -2963,7 +2380,7 @@ class CustomDialog extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.colorPrimary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             onPressed: onTap,
@@ -3028,7 +2445,7 @@ class CustomErrorDialog extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.colorPrimary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             onPressed: onTap,

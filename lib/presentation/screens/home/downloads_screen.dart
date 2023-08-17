@@ -195,18 +195,18 @@ class DownloadListItem extends StatelessWidget {
         // ),
         border: Border(
           left: const BorderSide(
-            color: AppColors.colorPrimary,
+            color: AppColors.colorPrimaryBorderLight,
           ),
           right: const BorderSide(
-            color: AppColors.colorPrimary,
+            color: AppColors.colorPrimaryBorderLight,
           ),
           top: const BorderSide(
-            color: AppColors.colorPrimary,
+            color: AppColors.colorPrimaryBorderLight,
           ),
           bottom:
               index == downloadableFilesLoadedState.downloadableFiles.length - 1
                   ? const BorderSide(
-                      color: AppColors.colorPrimary,
+                      color: AppColors.colorPrimaryBorderLight,
                     )
                   : BorderSide.none,
         ),
@@ -225,7 +225,7 @@ class DownloadListItem extends StatelessWidget {
               ),
             ),
             const VerticalDivider(
-              color: AppColors.colorPrimary,
+              color: AppColors.colorPrimaryBorderLight,
             ),
             Expanded(
               child: Text(
@@ -238,7 +238,7 @@ class DownloadListItem extends StatelessWidget {
             ),
             const VerticalDivider(
               width: 1,
-              color: AppColors.colorPrimary,
+              color: AppColors.colorPrimaryBorderLight,
             ),
             // VerticalDivider(),
             BlocBuilder<GetJobDetailsCubit, GetJobDetailsState>(

@@ -103,7 +103,7 @@ class _FileTwoListState extends State<FileTwoList> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 252, 252, 252),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       border: Border.all(
                         color: AppColors.colorPrimary,
                         width: 0.7,
@@ -160,7 +160,7 @@ class _FileTwoListState extends State<FileTwoList> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 252, 252, 252),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       border: Border.all(
                         color: AppColors.colorPrimary,
                         width: 0.7,
@@ -223,7 +223,7 @@ class _FileTwoListState extends State<FileTwoList> {
                       ),
                       backgroundColor: AppColors.colorPrimary,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     onPressed: () {

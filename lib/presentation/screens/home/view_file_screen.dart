@@ -107,7 +107,7 @@ class _ViewFileState extends State<ViewFile> {
                           ),
                           backgroundColor: AppColors.colorPrimary,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         onPressed: () {
@@ -161,7 +161,7 @@ class _ViewFileState extends State<ViewFile> {
                                     vertical: 22,
                                   ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                     side: const BorderSide(
                                       color: AppColors.colorPrimary,
                                     ),
@@ -188,7 +188,7 @@ class _ViewFileState extends State<ViewFile> {
                                 vertical: 22,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
                                   color: AppColors.colorPrimary,
                                 ),
@@ -256,7 +256,7 @@ class _ViewFileState extends State<ViewFile> {
                           //       ),
                           //       backgroundColor: AppColors.colorPrimary,
                           //       shape: RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderRadius: BorderRadius.circular(5),
                           //       ),
                           //     ),
                           //     onPressed: null,
@@ -277,7 +277,7 @@ class _ViewFileState extends State<ViewFile> {
                           //       ),
                           //       backgroundColor: AppColors.colorPrimary,
                           //       shape: RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderRadius: BorderRadius.circular(5),
                           //       ),
                           //     ),
                           //     onPressed: null,
@@ -297,7 +297,7 @@ class _ViewFileState extends State<ViewFile> {
                               ),
                               backgroundColor: AppColors.colorPrimary,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                             ),
                             onPressed: () {
@@ -470,7 +470,7 @@ class FilterTextField extends StatelessWidget {
           color: AppColors.colorPrimary,
           width: 0.7,
         ),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: TextFormField(
         maxLines: 1,
@@ -530,7 +530,7 @@ class ReferenceNameField extends StatelessWidget {
           vertical: 10,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 110, 125, 255),
             width: 1,
@@ -539,7 +539,7 @@ class ReferenceNameField extends StatelessWidget {
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(
             color: Color.fromARGB(255, 0, 18, 181),
             width: 1,

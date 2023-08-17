@@ -81,7 +81,7 @@ class FilesListItem extends StatelessWidget {
               ),
             ),
             const VerticalDivider(
-              color: AppColors.colorPrimary,
+              color: AppColors.colorPrimaryBorderLight,
             ),
             Expanded(
               child: Text(
@@ -92,7 +92,7 @@ class FilesListItem extends StatelessWidget {
               ),
             ),
             const VerticalDivider(
-              color: AppColors.colorPrimary,
+              color: AppColors.colorPrimaryBorderLight,
             ),
             Expanded(
               child: Text(
@@ -103,7 +103,7 @@ class FilesListItem extends StatelessWidget {
             const VerticalDivider(
               thickness: 1,
               width: 1,
-              color: AppColors.colorPrimary,
+              color: AppColors.colorPrimaryBorderLight,
             ),
             Expanded(
               child: Container(
@@ -306,7 +306,7 @@ class PagesList extends StatelessWidget {
                             color: AppColors.colorPrimary,
                             width: 0.7,
                           ),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextFormField(
                           maxLines: 1,
@@ -369,7 +369,7 @@ class PagesList extends StatelessWidget {
                             color: AppColors.colorPrimary,
                             width: 0.7,
                           ),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextFormField(
                           maxLines: 1,
@@ -428,7 +428,7 @@ class PagesList extends StatelessWidget {
                             color: AppColors.colorPrimary,
                             width: 0.7,
                           ),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextFormField(
                           maxLines: 1,
@@ -463,7 +463,7 @@ class PagesList extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 252, 252, 252),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           border: Border.all(
                             color: AppColors.colorPrimary,
                             width: 0.7,
@@ -517,7 +517,7 @@ class PagesList extends StatelessWidget {
                             vertical: constraints.maxHeight * 0.035,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           backgroundColor: AppColors.colorPrimary,
                         ),
@@ -661,16 +661,17 @@ class PagesList extends StatelessWidget {
                                   border: Border(
                                     top: const BorderSide(
                                       width: 1,
-                                      color: AppColors.colorPrimary,
+                                      color: AppColors.colorPrimaryBorderLight,
                                     ),
                                     right: const BorderSide(
                                       width: 1,
-                                      color: AppColors.colorPrimary,
+                                      color: AppColors.colorPrimaryBorderLight,
                                     ),
                                     bottom: index == state.jobList.length - 1
                                         ? const BorderSide(
                                             width: 1,
-                                            color: AppColors.colorPrimary,
+                                            color: AppColors
+                                                .colorPrimaryBorderLight,
                                           )
                                         : const BorderSide(
                                             color: Colors.transparent,
@@ -678,7 +679,7 @@ class PagesList extends StatelessWidget {
                                           ),
                                     left: const BorderSide(
                                       width: 1,
-                                      color: AppColors.colorPrimary,
+                                      color: AppColors.colorPrimaryBorderLight,
                                     ),
                                   ),
                                 ),
@@ -726,16 +727,17 @@ class PagesList extends StatelessWidget {
                               border: Border(
                                 top: const BorderSide(
                                   width: 1,
-                                  color: AppColors.colorPrimary,
+                                  color: AppColors.colorPrimaryBorderLight,
                                 ),
                                 right: const BorderSide(
                                   width: 1,
-                                  color: AppColors.colorPrimary,
+                                  color: AppColors.colorPrimaryBorderLight,
                                 ),
                                 bottom: index == state.jobList.length - 1
                                     ? const BorderSide(
                                         width: 1,
-                                        color: AppColors.colorPrimary,
+                                        color:
+                                            AppColors.colorPrimaryBorderLight,
                                       )
                                     : const BorderSide(
                                         color: Colors.transparent,
@@ -743,7 +745,7 @@ class PagesList extends StatelessWidget {
                                       ),
                                 left: const BorderSide(
                                   width: 1,
-                                  color: AppColors.colorPrimary,
+                                  color: AppColors.colorPrimaryBorderLight,
                                 ),
                               ),
                             ),
