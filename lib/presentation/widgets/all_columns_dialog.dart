@@ -57,6 +57,9 @@ class AllColumnsDialog extends StatelessWidget {
                           final decodedData =
                               (jsonDecode(state.completeRowData.data!) as Map);
                           return LayoutBuilder(builder: (context, constraints) {
+                            if (decodedData.isEmpty) {
+                              return const Text('No columns found!');
+                            }
                             return Scrollbar(
                               controller: scrollController,
                               thumbVisibility: true,
@@ -173,7 +176,9 @@ class AllColumnsDialog extends StatelessWidget {
                             );
                           });
                         }
-                        return const Text('Loading failed!');
+                        return const Center(
+                          child: Text('Failed loading all Columns!'),
+                        );
                       },
                     ),
                   ),

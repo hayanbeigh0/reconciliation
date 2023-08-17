@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -22,11 +23,14 @@ class GetCompleteRowCubit extends Cubit<GetCompleteRowState> {
         recordId: recordId,
         sheetNumber: sheetNumber,
       );
-      log(response.data.toString());
-      CompleteRowData completeRowData = CompleteRowData.fromJson(
-        response.data[0],
-      );
-      emit(LoadingCompleteRowSuccessState(completeRowData: completeRowData));
+      if (response.data.isNotEmpty) {
+        CompleteRowData completeRowData = CompleteRowData.fromJson(
+          response.data[0],
+        );
+        emit(LoadingCompleteRowSuccessState(completeRowData: completeRowData));
+      } else {
+        emit(LoadingCompleteRowFailedState());
+      }
     } on DioError catch (e) {
       emit(LoadingCompleteRowFailedState());
       log(e.response.toString());

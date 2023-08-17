@@ -2,7 +2,7 @@ class CompleteRowData {
   int? recordId;
   String? data;
   String? reference;
-  int? amount;
+  double? amount;
   String? date;
   String? status;
   String? subStatus;
